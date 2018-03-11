@@ -1,0 +1,18 @@
+{
+    "name": "warrenca/connect4",
+    "description": "A Connect4 Game simulator",
+    "type": "project",
+    "require": {
+        "php-di/php-di": "^6.0"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Warren",
+            "email": "warren@onehomebase.com"
+        }
+    ],
+    "psr-4": {
+        "Connect4\\": "src"
+    }
+}
