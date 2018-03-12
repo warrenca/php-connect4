@@ -9,9 +9,12 @@ use Connect4\View\Board;
 
 /**
  * Class Game
- * This class manages the game, sets the players turn,
- * asks the MovesStore class to check if there a move is a winning turn or a valid one,
- * and tells the Board class to print in the screen the valid moves
+ * This class directs the game
+ *
+ * - It Sets the players turn,
+ * - It Asks the MovesStore class to check if there a move is a winning turn or a valid one
+ * - It Tells the Board class to print in the screen the valid moves
+ * - Prints the move information and ends the game when there's a winner
  *
  * @package Connect4
  */
@@ -35,6 +38,13 @@ class Game
     /** @var Player $currentPlayer */
     private $currentPlayer;
 
+    /**
+     * Game constructor.
+     * @param Board $board
+     * @param Player $playerOne
+     * @param Player $playerTwo
+     * @param MovesStore $movesStore
+     */
     public function __construct(Board $board, Player $playerOne, Player $playerTwo, MovesStore $movesStore)
     {
         $this->board = $board;
@@ -48,8 +58,10 @@ class Game
      */
     public function setup()
     {
+        // Set the players token
         $this->playerOne->setToken(Board::TOKEN_PLAYER_ONE);
         $this->playerTwo->setToken(Board::TOKEN_PLAYER_TWO);
+
         $this->printInfo(
             "Hey! Welcome to Connect4 game simulation.\n" .
                 "It is a turn based game between two players.\n".
@@ -63,7 +75,11 @@ class Game
                 "Have fun!\n\n"
         );
 
-        $this->board->init()->draw();
+        // Initialise the board and print it on the screen
+        $this->board->init();
+        $this->board->draw();
+
+        // Pass the cells to MovesStore
         $this->movesStore->setCells($this->board->getCells());
     }
 
@@ -75,14 +91,15 @@ class Game
         $turn = 0;
         $maximumTurns = Board::ROWS * Board::COLUMNS;
 
-        // While there's no winner or the maximum turns hasn't reached
+        // While there's no winner or the maximum turns hasn't been reached
         while (!$this->getWinner() && $turn < $maximumTurns)
         {
             $this->initiateMove($turn);
 
-            if ($this->checkWinner($this->getCurrentPlayer()))
+            if ($this->movesStore->checkWinningPatterns($this->getCurrentPlayer()))
             {
-                // Break out of the loop when there's a winner
+                $this->setWinner($this->getCurrentPlayer());
+                // End the game since there's already a winner
                 break;
             }
 
@@ -99,7 +116,7 @@ class Game
     }
 
     /**
-     * Ask or get the players desired move
+     * Ask (human) or get (AI) the players desired move
      *
      * @param $turn
      */
@@ -117,6 +134,7 @@ class Game
 
         $columnIndex = $this->getCurrentPlayer()->enterColumn() - 1;
 
+        // Drop the token to the designated column
         if (!$this->movesStore->dropToken($columnIndex, $this->getCurrentPlayer()->getToken()))
         {
             // Invalid dropping...
@@ -126,11 +144,14 @@ class Game
                 $this->printError($this->movesStore->getError());
             }
 
-            // Ask to make another move
+            // Ask to make another move since there's an error
             $this->initiateMove($turn);
         } else {
+            // There's a valid move so we'll print that information
             $humanReadableColumn = "C" . ($columnIndex + 1);
             $this->printInfo( sprintf('%s %s move is in the position %s', $this->getCurrentPlayer()->getName(), $this->getCurrentPlayer()->getToken(), $humanReadableColumn) );
+
+            // Set the cells to the board and draw it
             $this->board->setCells($this->movesStore->getCells());
             $this->board->draw();
         }
@@ -141,7 +162,7 @@ class Game
      */
     private function getWinner()
     {
-        if ($this->winner) return $this->winner;
+        return $this->winner;
     }
 
     /**
@@ -150,22 +171,6 @@ class Game
     private function setWinner(Player $player)
     {
         $this->winner = $player;
-    }
-
-    /**
-     * Check and set a winner
-     *
-     * @param Player $currentPlayer
-     * @return bool
-     */
-    private function checkWinner(Player $currentPlayer)
-    {
-        if ($this->movesStore->checkWinningPatterns($currentPlayer))
-        {
-            $this->setWinner($this->getCurrentPlayer());
-
-            return true;
-        }
     }
 
     /**

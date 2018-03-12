@@ -94,7 +94,7 @@ class DumbAiPlayer implements Player
     {
         // If we want a smart column selection that will block an opponents move
         // and will try to win, we can do it here.
-        // We can use the $this->getMovesStore() to analyse the AIs and opponents token positions
-        // and return the best column number.
+        // We can use the $this->getMovesStore() to analyse this AIs and opponents token positions
+        // then finally return the best column number.
     }
 }

@@ -155,10 +155,10 @@ class MovesStore
     {
         $token = $player->getToken();
 
-        return $this->checkHorizontalWinningPattern($token)
-            || $this->checkVerticalWinningPattern($token)
-            || $this->checkFromLowerLeftToUpperRightWinningPattern($token)
-            || $this->checkFromUpperLeftToLowerRightWinningPattern($token);
+        return $this->checkHorizontalPattern($token)
+            || $this->checkVerticalPattern($token)
+            || $this->checkForwardSlashPattern($token)
+            || $this->checkBackSlashPattern($token);
     }
 
     /**
@@ -167,7 +167,7 @@ class MovesStore
      * @param $token
      * @return bool
      */
-    public function checkHorizontalWinningPattern($token)
+    public function checkHorizontalPattern($token)
     {
         $cells = $this->getCells();
 
@@ -196,7 +196,7 @@ class MovesStore
      * @param $token
      * @return bool
      */
-    private function checkVerticalWinningPattern($token)
+    private function checkVerticalPattern($token)
     {
         $cells = $this->getCells();
 
@@ -219,12 +219,16 @@ class MovesStore
     }
 
     /**
-     * Check diagonal winning pattern from lower left to upper right
+     * Check diagonal winning pattern from lower left to upper right /
+     * [ ][ ][ ][O]
+     * [ ][ ][O][X]
+     * [ ][O][X][X]
+     * [O][X][X][O]
      *
      * @param $token
      * @return bool
      */
-    private function checkFromLowerLeftToUpperRightWinningPattern($token)
+    private function checkForwardSlashPattern($token)
     {
         $cells = $this->getCells();
 
@@ -250,12 +254,16 @@ class MovesStore
     }
 
     /**
-     * Check diagonal winning pattern from upper left to lower right
+     * Check diagonal winning pattern from upper left to lower right /
+     * [O][ ][ ][ ]
+     * [X][O][ ][ ]
+     * [X][X][O][ ]
+     * [O][X][X][O]
      *
      * @param $token
      * @return bool
      */
-    private function checkFromUpperLeftToLowerRightWinningPattern($token)
+    private function checkBackSlashPattern($token)
     {
         $cells = $this->getCells();
 

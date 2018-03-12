@@ -22,19 +22,21 @@ class Board
     /**
      * Initialise the board with empty cells
      *
-     * @return $this
+     * @return void
      */
     public function init()
     {
+        $cells = [];
+
         for ($row = 0; $row < self::ROWS; $row++)
         {
             for ($column = 0; $column < self::COLUMNS; $column++)
             {
-                $this->cells[$row][$column] = self::TOKEN_EMPTY_CELL;
+                $cells[$row][$column] = self::TOKEN_EMPTY_CELL;
             }
         }
 
-        return $this;
+        $this->setCells($cells);
     }
 
     /**
