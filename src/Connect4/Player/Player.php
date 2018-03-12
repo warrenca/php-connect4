@@ -3,6 +3,8 @@
 namespace Connect4\Player;
 
 
+use Connect4\Store\MovesStore;
+
 interface Player
 {
     public function getName();
@@ -13,9 +15,11 @@ interface Player
 
     public function getToken();
 
-    public function dropToken($position);
-
     public function isHuman();
 
     public function enterPosition();
+
+    public function setMovesStore(MovesStore $board);
+
+    public function getMovesStore();
 }

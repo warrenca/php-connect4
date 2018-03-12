@@ -3,6 +3,8 @@
 namespace Connect4\Player;
 
 
+use Connect4\Store\MovesStore;
+
 class HumanPlayer implements Player
 {
     const IS_HUMAN = true;
@@ -10,6 +12,8 @@ class HumanPlayer implements Player
     private $token;
 
     private $name;
+
+    private $movesStore;
 
     public function isHuman()
     {
@@ -36,13 +40,24 @@ class HumanPlayer implements Player
         return $this->token;
     }
 
-    public function dropToken($position)
+    /**
+     * @return MovesStore
+     */
+    public function getMovesStore()
     {
-        // TODO: Implement dropToken() method.
+        return $this->movesStore;
+    }
+
+    /**
+     * @param MovesStore $movesStore
+     */
+    public function setMovesStore(MovesStore $movesStore)
+    {
+        $this->movesStore = $movesStore;
     }
 
     public function enterPosition()
     {
-        return readline(sprintf("\n%s Position: ", $this->getName()));
+        return readline(sprintf("Enter %s Position: ", $this->getName()));
     }
 }
