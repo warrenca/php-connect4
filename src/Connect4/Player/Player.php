@@ -17,7 +17,7 @@ interface Player
 
     public function isHuman();
 
-    public function enterPosition();
+    public function enterColumn();
 
     public function setMovesStore(MovesStore $board);
 

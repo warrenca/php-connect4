@@ -16,26 +16,47 @@ class DumbAiPlayer implements Player
 
     private $movesStore;
 
+    /**
+     * Tells if the player is human
+     *
+     * @return bool
+     */
     public function isHuman()
     {
         return self::IS_HUMAN;
     }
 
+    /**
+     * Sets the name of the player
+     *
+     * @param $name
+     */
     public function setName($name)
     {
         $this->name = $name;
     }
 
+    /**
+     * @return mixed
+     */
     public function getName()
     {
         return $this->name;
     }
 
+    /**
+     * Set the token for the player
+     *
+     * @param $token
+     */
     public function setToken($token)
     {
         $this->token = $token;
     }
 
+    /**
+     * @return mixed
+     */
     public function getToken()
     {
         return $this->token;
@@ -57,15 +78,23 @@ class DumbAiPlayer implements Player
         $this->movesStore = $movesStore;
     }
 
-    public function enterPosition()
+    /**
+     * Randomly return a number from 1 to the maximum board column
+     * @return int
+     */
+    public function enterColumn()
     {
-        $rows = Board::ROWS;
-        $columns = Board::COLUMNS;
-
-        $rowPosition = 'R' . rand(1, $rows);
-        $columnPosition = 'C' . rand(1, $columns);
-
-        return sprintf('%s,%s', $rowPosition, $columnPosition);
+        return rand(1, Board::COLUMNS);
+        // When we have the AI logic for selecting the best column,
+        // we can use the code below
+        // return $this->smartColumnSelection();
     }
 
+    private function smartColumnSelection()
+    {
+        // If we want a smart column selection that will block an opponents move
+        // and will try to win, we can do it here.
+        // We can use the $this->getMovesStore() to analyse the AIs and opponents token positions
+        // and return the best column number.
+    }
 }

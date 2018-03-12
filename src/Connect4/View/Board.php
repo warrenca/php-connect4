@@ -2,7 +2,12 @@
 
 namespace Connect4\View;
 
-
+/**
+ * Class Board
+ * This class provides the interface to display the Connect4 board on the screen
+ *
+ * @package Connect4\View
+ */
 class Board
 {
     const TOKEN_EMPTY_CELL = '[ ]';
@@ -14,6 +19,11 @@ class Board
 
     private $cells = [];
 
+    /**
+     * Initialise the board with empty cells
+     *
+     * @return $this
+     */
     public function init()
     {
         for ($row = 0; $row < self::ROWS; $row++)
@@ -27,36 +37,45 @@ class Board
         return $this;
     }
 
+    /**
+     * @param $cells
+     */
     public function setCells($cells)
     {
         $this->cells = $cells;
     }
 
+    /**
+     * Draw in the console the moves already taken
+     */
     public function draw()
     {
-        echo "R↓\n";
+        $cells = $this->getCells();
 
+        // Looping through the cells and display it
         for ($rowIndex = 0; $rowIndex < self::ROWS; $rowIndex++)
         {
-            echo ($rowIndex + 1) . " ";
+            echo "    ";
             for ($columnIndex = 0; $columnIndex < count($this->cells[$rowIndex]); $columnIndex++)
             {
-                echo $this->cells[$rowIndex][$columnIndex];
+                echo $cells[$rowIndex][$columnIndex];
             }
             echo "\n";
         }
 
-        echo "   ";
+        // Put a label under the board
+        echo "C->";
         for ($columnIndex = 0; $columnIndex < self::COLUMNS; $columnIndex++)
         {
-            echo ($columnIndex + 1) . "  ";
+            echo "  " . ($columnIndex + 1);
         }
-
-        echo "←C";
 
         echo "\n\n";
     }
 
+    /**
+     * @return array
+     */
     public function getCells()
     {
         return $this->cells;
