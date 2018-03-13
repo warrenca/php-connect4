@@ -20,7 +20,17 @@ class MovesStoreTests extends TestCase
     }
 
     /**
+     * ALl constants must match based on what was defined in the Board class
+     */
+    public function testConstantsShouldBeAsDefined()
+    {
+        self::assertEquals(4, MovesStore::NUMBER_OF_TOKENS_TO_WIN);
+    }
+
+    /**
+     * Must set and get correct cells
      * @dataProvider cellProvider1
+     * @param $cells
      */
     public function testMustSetAndGetCells($cells)
     {
@@ -28,6 +38,7 @@ class MovesStoreTests extends TestCase
         self::assertEquals($cells, $this->movesStore->getCells());
     }
 
+    /** Must get and set correct errors */
     public function testMustSetAndGetError()
     {
         $error = "This is an error";
@@ -37,7 +48,9 @@ class MovesStoreTests extends TestCase
     }
 
     /**
+     * Must return true if the column is full
      * @dataProvider cellProvider1
+     * @param $cells
      */
     public function testMustReturnTrueIfColumnIsFull($cells)
     {
@@ -52,11 +65,13 @@ class MovesStoreTests extends TestCase
         self::assertEquals("Column 2 is already full, please choose a different column.", $this->movesStore->getError());
     }
 
+    /** Must return false if the column is not full */
     public function testMustReturnFalseIfColumnIsNotFull()
     {
         self::assertFalse($this->movesStore->isColumnFull(0, 1));
     }
 
+    /** Must return true if the selected column is in range */
     public function testMustReturnTrueIfColumnIsInRange()
     {
         array_map(function($column)
@@ -66,9 +81,11 @@ class MovesStoreTests extends TestCase
     }
 
     /**
+     * Must return false when dropping a token to an incorrect column
      * @dataProvider cellProvider1
+     * @param $cells
      */
-    public function testMustReturnFalseByDroppingToIncorrectColumnIndex($cells)
+    public function testMustReturnFalseWhenDroppingToIncorrectColumnIndex($cells)
     {
         $this->movesStore->setCells($cells);
 
@@ -82,15 +99,18 @@ class MovesStoreTests extends TestCase
     }
 
     /**
+     * Must return true when dropping a token to a correct column
      * @dataProvider cellProvider1
+     * @param $cells
      */
-    public function testMustReturnTrueByDroppingToCorrectColumnIndex($cells)
+    public function testMustReturnTrueWhenDroppingToCorrectColumnIndex($cells)
     {
         $this->movesStore->setCells($cells);
 
         self::assertTrue($this->movesStore->dropToken(0, Board::TOKEN_PLAYER_TWO));
     }
 
+    /** Must return false if the column is not in range */
     public function testMustReturnFalseIfColumnIsNotInRange()
     {
         self::assertFalse($this->movesStore->isColumnInRange(Board::COLUMNS));
@@ -98,6 +118,7 @@ class MovesStoreTests extends TestCase
     }
 
     /**
+     * Must get the correct row index based on the cells or existing moves
      * @dataProvider cellProvider1
      * @param $cells
      */
@@ -111,6 +132,7 @@ class MovesStoreTests extends TestCase
     }
 
     /**
+     * Must return true for winning patterns
      * @param $horizontal
      * @param $vertical
      * @param $forwardSlash
@@ -122,18 +144,22 @@ class MovesStoreTests extends TestCase
         $playerOne = new HumanPlayer();
         $playerOne->setToken(Board::TOKEN_PLAYER_ONE);
 
+        // Return true for horizontal winning patterns
         $this->movesStore->setCells($horizontal);
         self::assertTrue($this->movesStore->checkWinningPatterns($playerOne));
         self::assertTrue($this->movesStore->checkHorizontalPattern(Board::TOKEN_PLAYER_ONE));
 
+        // Return true for vertical winning patterns
         $this->movesStore->setCells($vertical);
         self::assertTrue($this->movesStore->checkVerticalPattern(Board::TOKEN_PLAYER_ONE));
         self::assertTrue($this->movesStore->checkWinningPatterns($playerOne));
 
+        // Return true for forward slash winning patterns
         $this->movesStore->setCells($forwardSlash);
         self::assertTrue($this->movesStore->checkForwardSlashPattern(Board::TOKEN_PLAYER_ONE));
         self::assertTrue($this->movesStore->checkWinningPatterns($playerOne));
 
+        // Return true for back slash winning patterns
         $this->movesStore->setCells($backSlash);
         self::assertTrue($this->movesStore->checkBackSlashPattern(Board::TOKEN_PLAYER_ONE));
         self::assertTrue($this->movesStore->checkWinningPatterns($playerOne));

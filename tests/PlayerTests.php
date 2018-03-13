@@ -23,6 +23,7 @@ class PlayerTests extends TestCase
     }
 
     /**
+     * Must get and set the players name
      * @dataProvider nameProvider
      * @param $name
      */
@@ -33,13 +34,7 @@ class PlayerTests extends TestCase
         self::assertEquals(self::NAME, $this->player->getName());
     }
 
-    public function nameProvider()
-    {
-        return [
-            [self::NAME]
-        ];
-    }
-
+    /** Must get and set the correct token */
     public function testMustSetAndGetToken()
     {
         $this->player->setToken(Board::TOKEN_PLAYER_ONE);
@@ -47,6 +42,7 @@ class PlayerTests extends TestCase
         self::assertEquals(Board::TOKEN_PLAYER_ONE, $this->player->getToken());
     }
 
+    /** Must identify the player if human and robot */
     public function testMustBeHumanOrAI()
     {
         $this->player->setHumanStatus(true);
@@ -56,6 +52,7 @@ class PlayerTests extends TestCase
         self::assertFalse($this->player->isHuman());
     }
 
+    /** Must get and set move store */
     public function testMustSetAndGetMovesStore()
     {
         $movesStore = new MovesStore();
@@ -64,6 +61,7 @@ class PlayerTests extends TestCase
         self::assertInstanceOf('Connect4\\Store\\MovesStore', $this->player->getMovesStore());
     }
 
+    /** Must check that the column entered by the user is within range */
     public function testMustHaveAColumnWithinRange()
     {
         $column = $this->player->enterColumn();
@@ -71,12 +69,10 @@ class PlayerTests extends TestCase
         self::assertTrue(in_array($column, range(1, Board::COLUMNS)));
     }
 
-//    public function testInputtedColumnMustMatch()
-//    {
-//        $humanPlayer = new HumanPlayer();
-//        $humanPlayer->setToken(Board::TOKEN_PLAYER_TWO);
-//        $humanPlayer->setName('Human');
-//
-//        $humanPlayer->enterColumn();
-//    }
+    public function nameProvider()
+    {
+        return [
+            [self::NAME]
+        ];
+    }
 }

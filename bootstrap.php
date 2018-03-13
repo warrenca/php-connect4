@@ -10,6 +10,9 @@ spl_autoload_register(function ($class) {
     }
 });
 
+require './vendor/autoload.php';
+require './php-di/container.php';
+
 function dd($var)
 {
     var_dump($var);

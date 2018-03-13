@@ -38,6 +38,9 @@ class Game
     /** @var Player $currentPlayer */
     private $currentPlayer;
 
+    /** @var int $maximumTurns */
+    private $maximumTurns;
+
     /**
      * Game constructor.
      * @param Board $board
@@ -47,10 +50,11 @@ class Game
      */
     public function __construct(Board $board, Player $playerOne, Player $playerTwo, MovesStore $movesStore)
     {
-        $this->board = $board;
-        $this->playerOne = $playerOne;
-        $this->playerTwo = $playerTwo;
-        $this->movesStore = $movesStore;
+        $this->setBoard($board);
+        $this->setPlayerOne($playerOne);
+        $this->setPlayerTwo($playerTwo);
+        $this->setMovesStore($movesStore);
+        $this->setMaximumTurns(Board::COLUMNS * Board::ROWS);
     }
 
     /**
@@ -59,8 +63,8 @@ class Game
     public function setup()
     {
         // Set the players token
-        $this->playerOne->setToken(Board::TOKEN_PLAYER_ONE);
-        $this->playerTwo->setToken(Board::TOKEN_PLAYER_TWO);
+        $this->getPlayerOne()->setToken(Board::TOKEN_PLAYER_ONE);
+        $this->getPlayerTwo()->setToken(Board::TOKEN_PLAYER_TWO);
 
         $this->printInfo(
             "Hey! Welcome to Connect4 game simulation.\n" .
@@ -76,11 +80,11 @@ class Game
         );
 
         // Initialise the board and print it on the screen
-        $this->board->init();
-        $this->board->draw();
+        $this->getBoard()->init();
+        $this->getBoard()->draw();
 
         // Pass the cells to MovesStore
-        $this->movesStore->setCells($this->board->getCells());
+        $this->getMovesStore()->setCells($this->getBoard()->getCells());
     }
 
     /**
@@ -89,14 +93,13 @@ class Game
     public function start()
     {
         $turn = 0;
-        $maximumTurns = Board::ROWS * Board::COLUMNS;
 
         // While there's no winner or the maximum turns hasn't been reached
-        while (!$this->getWinner() && $turn < $maximumTurns)
+        while (!$this->getWinner() && $turn < $this->getMaximumTurns())
         {
             $this->initiateMove($turn);
 
-            if ($this->movesStore->checkWinningPatterns($this->getCurrentPlayer()))
+            if ($this->getMovesStore()->checkWinningPatterns($this->getCurrentPlayer()))
             {
                 $this->setWinner($this->getCurrentPlayer());
                 // End the game since there's already a winner
@@ -116,32 +119,50 @@ class Game
     }
 
     /**
+     * @param $maximumTurns
+     */
+    public function setMaximumTurns($maximumTurns)
+    {
+        $this->maximumTurns = $maximumTurns;
+    }
+
+    /**
+     * Get the games maximum turns
+     *
+     * @return int
+     */
+    public function getMaximumTurns()
+    {
+        return $this->maximumTurns;
+    }
+
+    /**
      * Ask (human) or get (AI) the players desired move
      *
      * @param $turn
      */
     private function initiateMove($turn)
     {
-        // It's Player 1's turn
-        $this->setCurrentPlayer($this->playerOne);
-
         if ($turn % 2)
         {
             // If mod is 1 or true
             // It's Player 2's turn
-            $this->setCurrentPlayer($this->playerTwo);
+            $this->setCurrentPlayer($this->getPlayerTwo());
+        } else {
+            // It's Player 1's turn
+            $this->setCurrentPlayer($this->getPlayerOne());
         }
 
         $columnIndex = $this->getCurrentPlayer()->enterColumn() - 1;
 
         // Drop the token to the designated column
-        if (!$this->movesStore->dropToken($columnIndex, $this->getCurrentPlayer()->getToken()))
+        if (!$this->getMovesStore()->dropToken($columnIndex, $this->getCurrentPlayer()->getToken()))
         {
             // Invalid dropping...
             if ($this->getCurrentPlayer()->isHuman())
             {
                 // Show only the errors to human and ignore error for robot
-                $this->printError($this->movesStore->getError());
+                $this->printError($this->getMovesStore()->getError());
             }
 
             // Ask to make another move since there's an error
@@ -152,15 +173,15 @@ class Game
             $this->printInfo( sprintf('%s %s move is in the position %s', $this->getCurrentPlayer()->getName(), $this->getCurrentPlayer()->getToken(), $humanReadableColumn) );
 
             // Set the cells to the board and draw it
-            $this->board->setCells($this->movesStore->getCells());
-            $this->board->draw();
+            $this->getBoard()->setCells($this->getMovesStore()->getCells());
+            $this->getBoard()->draw();
         }
     }
 
     /**
      * @return Player
      */
-    private function getWinner()
+    public function getWinner()
     {
         return $this->winner;
     }
@@ -168,7 +189,7 @@ class Game
     /**
      * @param Player $player
      */
-    private function setWinner(Player $player)
+    public function setWinner(Player $player = null)
     {
         $this->winner = $player;
     }
@@ -217,5 +238,69 @@ class Game
     private function printInfo($info)
     {
         echo "\033[33m$info \033[0m\n";
+    }
+
+    /**
+     * @return Board
+     */
+    public function getBoard()
+    {
+        return $this->board;
+    }
+
+    /**
+     * @param Board $board
+     */
+    public function setBoard($board)
+    {
+        $this->board = $board;
+    }
+
+    /**
+     * @return Player
+     */
+    public function getPlayerOne()
+    {
+        return $this->playerOne;
+    }
+
+    /**
+     * @param Player $playerOne
+     */
+    public function setPlayerOne($playerOne)
+    {
+        $this->playerOne = $playerOne;
+    }
+
+    /**
+     * @return Player
+     */
+    public function getPlayerTwo()
+    {
+        return $this->playerTwo;
+    }
+
+    /**
+     * @param Player $playerTwo
+     */
+    public function setPlayerTwo($playerTwo)
+    {
+        $this->playerTwo = $playerTwo;
+    }
+
+    /**
+     * @return MovesStore
+     */
+    public function getMovesStore()
+    {
+        return $this->movesStore;
+    }
+
+    /**
+     * @param MovesStore $movesStore
+     */
+    public function setMovesStore($movesStore)
+    {
+        $this->movesStore = $movesStore;
     }
 }

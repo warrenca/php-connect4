@@ -8,6 +8,9 @@ use PHPUnit\Framework\TestCase;
 
 final class BoardTests extends TestCase
 {
+    /**
+     * ALl constants must match based on what was defined in the Board class
+     */
     public function testConstantsShouldBeAsDefined()
     {
         self::assertEquals(7, Board::COLUMNS);
@@ -17,6 +20,10 @@ final class BoardTests extends TestCase
         self::assertEquals('[O]', Board::TOKEN_PLAYER_TWO);
     }
 
+    /**
+     * On board initialisation, the rows and columns must match
+     * the defined amount in the Board class
+     */
     public function testOnInitRowsAndColumnsShouldLengthShouldBeAsDefined()
     {
         $board = new Board();
@@ -32,6 +39,9 @@ final class BoardTests extends TestCase
         }
     }
 
+    /**
+     * On initialisation, the Board cells should be empty
+     */
     public function testOnInitCellsShouldBeEmpty()
     {
         $board = new Board();
@@ -50,6 +60,8 @@ final class BoardTests extends TestCase
     }
 
     /**
+     * The display must match the expected display based on the cells defined
+     *
      * @dataProvider emptyCellsProvider
      * @param $cells
      * @param $expectedCanvas
