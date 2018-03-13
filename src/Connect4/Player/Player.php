@@ -63,4 +63,10 @@ interface Player
      * @return mixed
      */
     public function getMovesStore();
+
+    /**
+     * Sets the human status
+     * @param bool $humanStatus
+     */
+    public function setHumanStatus($humanStatus);
 }

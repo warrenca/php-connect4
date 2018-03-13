@@ -9,3 +9,9 @@ spl_autoload_register(function ($class) {
         require $file;
     }
 });
+
+function dd($var)
+{
+    var_dump($var);
+    die();
+}

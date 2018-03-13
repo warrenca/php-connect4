@@ -162,7 +162,11 @@ class MovesStore
     }
 
     /**
-     * Check if there are X number of consecutive tokens horizontally
+     * Check for horizontal - winning pattern
+     * [ ][ ][ ][ ]
+     * [ ][ ][ ][ ]
+     * [ ][ ][ ][ ]
+     * [X][X][X][X]
      *
      * @param $token
      * @return bool
@@ -191,7 +195,11 @@ class MovesStore
     }
 
     /**
-     * Check for vertical winning pattern
+     * Check for vertical | winning pattern
+     * [X][ ][ ][ ]
+     * [X][ ][ ][ ]
+     * [X][ ][ ][ ]
+     * [X][ ][ ][ ]
      *
      * @param $token
      * @return bool

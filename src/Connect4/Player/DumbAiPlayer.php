@@ -3,79 +3,20 @@
 namespace Connect4\Player;
 
 
-use Connect4\Store\MovesStore;
 use Connect4\View\Board;
 
-class DumbAiPlayer implements Player
+/**
+ * Class DumbAiPlayer
+ *
+ * @package Connect4\Player
+ */
+class DumbAiPlayer extends PlayerAbstract
 {
     const IS_HUMAN = false;
 
-    private $token;
-
-    private $name;
-
-    private $movesStore;
-
-    /**
-     * Tells if the player is human
-     *
-     * @return bool
-     */
-    public function isHuman()
+    public function __construct()
     {
-        return self::IS_HUMAN;
-    }
-
-    /**
-     * Sets the name of the player
-     *
-     * @param $name
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * Set the token for the player
-     *
-     * @param $token
-     */
-    public function setToken($token)
-    {
-        $this->token = $token;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getToken()
-    {
-        return $this->token;
-    }
-
-    /**
-     * @return MovesStore
-     */
-    public function getMovesStore()
-    {
-        return $this->movesStore;
-    }
-
-    /**
-     * @param MovesStore $movesStore
-     */
-    public function setMovesStore(MovesStore $movesStore)
-    {
-        $this->movesStore = $movesStore;
+        $this->setHumanStatus(self::IS_HUMAN);
     }
 
     /**

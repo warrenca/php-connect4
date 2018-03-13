@@ -17,9 +17,3 @@ $playerTwo->setMovesStore($movesStore);
 $game = new \Connect4\Game($board, $playerOne, $playerTwo, $movesStore);
 $game->setup();
 $game->start();
-
-function dd($var)
-{
-    var_dump($var);
-    die();
-}

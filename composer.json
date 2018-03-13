@@ -12,7 +12,17 @@
             "email": "warren@onehomebase.com"
         }
     ],
-    "psr-4": {
-        "Connect4\\": "src"
+    "autoload": {
+        "psr-4": {
+            "Connect4\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Connect4\\Tests\\": "tests/"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^7.0"
     }
 }

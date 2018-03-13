@@ -49,30 +49,39 @@ class Board
 
     /**
      * Draw in the console the moves already taken
+     * @param bool $printCanvas
+     * @return string
      */
-    public function draw()
+    public function draw($printCanvas = true)
     {
         $cells = $this->getCells();
+        $canvas = "";
 
         // Looping through the cells and display it
         for ($rowIndex = 0; $rowIndex < self::ROWS; $rowIndex++)
         {
-            echo "    ";
+            $canvas .= "    ";
             for ($columnIndex = 0; $columnIndex < count($this->cells[$rowIndex]); $columnIndex++)
             {
-                echo $cells[$rowIndex][$columnIndex];
+                $canvas .= $cells[$rowIndex][$columnIndex];
             }
-            echo "\n";
+            $canvas .= "\n";
         }
 
         // Put a label under the board
-        echo "C->";
+        $canvas .= "C->";
         for ($columnIndex = 0; $columnIndex < self::COLUMNS; $columnIndex++)
         {
-            echo "  " . ($columnIndex + 1);
+            $canvas .= "  " . ($columnIndex + 1);
         }
 
-        echo "\n\n";
+        $canvas .= "\n\n";
+
+        if ($printCanvas) {
+            echo $canvas;
+        } else {
+            return $canvas;
+        }
     }
 
     /**
