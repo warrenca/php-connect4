@@ -9,12 +9,19 @@ return [
     'connect4.view.board'       => \DI\create('\\Connect4\\View\\Board'),
     // MoveStore Instantiation
     'connect4.store.movesStore' => \DI\create('\\Connect4\\Store\\MovesStore'),
-    // Human Player Instantiation
+    // Human 1 Player Instantiation
     'connect4.player.human'     => function(\Psr\Container\ContainerInterface $c) {
             $player = new \Connect4\Player\HumanPlayer();
             $player->setName("Human 👤");
             $player->setMovesStore($c->get('connect4.store.movesStore'));
             return $player;
+    },
+    // Human 2 Player Instantiation
+    'connect4.player.human2'     => function(\Psr\Container\ContainerInterface $c) {
+        $player = new \Connect4\Player\HumanPlayer();
+        $player->setName("Human 2 👤");
+        $player->setMovesStore($c->get('connect4.store.movesStore'));
+        return $player;
     },
     // AI 1 Player Instantiation
     'connect4.player.ai'        => function(\Psr\Container\ContainerInterface $c)
