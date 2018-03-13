@@ -70,7 +70,7 @@ class Game
             "Hey! Welcome to Connect4 game simulation.\n" .
                 "It is a turn based game between two players.\n".
                 "Each player simply needs to enter a column number and\n" .
-                "try to Connect4 tokens of their own.\n" .
+                "try to Connect4 tokens of their own by horizontal, vertical and diagonal.\n" .
                 "--------------------------------------\n" .
                 "The players are...\n" .
                 sprintf("Player One: Name %s, Token %s\n", $this->playerOne->getName(), $this->playerOne->getToken()) .
