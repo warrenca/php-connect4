@@ -30,5 +30,8 @@
     },
     "scripts-descriptions": {
         "test": "Run all tests!"
+    },
+    "config": {
+        "php": "~7.1"
     }
 }

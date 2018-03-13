@@ -66,7 +66,7 @@ class Game
         $this->getPlayerOne()->setToken(Board::TOKEN_PLAYER_ONE);
         $this->getPlayerTwo()->setToken(Board::TOKEN_PLAYER_TWO);
 
-        $this->printInfo(
+        printInfo(
             "Hey! Welcome to Connect4 game simulation.\n"  .
                 "It is a turn based game between two players.\n" .
                 "Each player simply needs to enter a column number \n".
@@ -115,9 +115,9 @@ class Game
         if ($this->getWinner())
         {
             // There's a winner!
-            $this->printSuccess("Congratulations! The winner is " . $this->getWinner()->getName());
+            printSuccess("Congratulations! The winner is " . $this->getWinner()->getName());
         } else {
-            $this->printError("There is no winner. :(");
+            printError("There is no winner. :(");
         }
     }
 
@@ -165,7 +165,7 @@ class Game
             if ($this->getCurrentPlayer()->isHuman())
             {
                 // Show only the errors to human and ignore error for robot
-                $this->printError($this->getMovesStore()->getError());
+                printError($this->getMovesStore()->getError());
             }
 
             // Ask to make another move since there's an error
@@ -173,7 +173,7 @@ class Game
         } else {
             // There's a valid move so we'll print that information
             $humanReadableColumn = "C" . ($columnIndex + 1);
-            $this->printInfo( sprintf('%s %s move is in the position %s', $this->getCurrentPlayer()->getName(), $this->getCurrentPlayer()->getToken(), $humanReadableColumn) );
+            printInfo( sprintf('%s %s move is in the position %s', $this->getCurrentPlayer()->getName(), $this->getCurrentPlayer()->getToken(), $humanReadableColumn) );
 
             // Set the cells to the board and draw it
             $this->getBoard()->setCells($this->getMovesStore()->getCells());
@@ -211,36 +211,6 @@ class Game
     public function setCurrentPlayer($currentPlayer)
     {
         $this->currentPlayer = $currentPlayer;
-    }
-
-    /**
-     * Show success message in green!
-     *
-     * @param $message
-     */
-    private function printSuccess($message)
-    {
-        echo "\033[42m$message \033[0m\n";
-    }
-
-    /**
-     * Show error message in red!
-     *
-     * @param $error
-     */
-    private function printError($error)
-    {
-        echo "\033[31m$error \033[0m\n";
-    }
-
-    /**
-     * Show info message in yellow!
-     *
-     * @param $info
-     */
-    private function printInfo($info)
-    {
-        echo "\033[33m$info \033[0m\n";
     }
 
     /**

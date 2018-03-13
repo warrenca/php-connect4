@@ -73,8 +73,11 @@ Run `php main.php`
 ```
 Hey! Welcome to Connect4 game simulation.
 It is a turn based game between two players.
-Each player simply needs to enter a column number and
-try to Connect4 tokens of their own by horizontal, vertical and diagonal.
+Each player simply needs to enter a column number 
+where they want to drop their token.
+To win, they must Connect4 tokens of their own either
+horizontally, vertically and diagonally.
+No one wins when neither player Connect's 4 token.
 --------------------------------------
 The players are...
 Player One: Name Human 👤, Token [X]
