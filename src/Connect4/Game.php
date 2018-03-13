@@ -110,12 +110,8 @@ class Game
                 $this->setCurrentPlayer($this->getPlayerOne());
             }
 
-//            if ($this->getCurrentPlayer()->isHuman())
-//            {
-                // Only show column hints to a human
-                $validColumns = $this->getMovesStore()->getValidColumns();
-                printInfo(sprintf('Please select from the column numbers %s', implode(', ', $validColumns)));
-//            }
+            $validColumns = $this->getMovesStore()->getValidColumns();
+            printInfo(sprintf('Please select from the column numbers %s', implode(', ', $validColumns)));
 
             $this->initiateMove();
 

@@ -6,6 +6,8 @@ namespace Connect4\Tests;
 use Connect4\Player\HumanPlayer;
 use Connect4\Store\MovesStore;
 use Connect4\View\Board;
+use DI\Container;
+use DI\ContainerBuilder;
 use PHPUnit\Framework\TestCase;
 
 class MovesStoreTests extends TestCase
@@ -14,9 +16,21 @@ class MovesStoreTests extends TestCase
     /** @var  MovesStore */
     private $movesStore;
 
+    /** @var Container */
+    private $container;
+
+    /**
+     * @throws \DI\DependencyException
+     * @throws \DI\NotFoundException
+     * @throws \Exception
+     */
     public function setup()
     {
-        $this->movesStore = new MovesStore();
+        $builder = new ContainerBuilder();
+        $builder->addDefinitions('./php-di/config.php');
+        $this->container = $builder->build();
+
+        $this->movesStore = $this->container->get('connect4.store.movesStore');;
     }
 
     /**
@@ -150,11 +164,13 @@ class MovesStoreTests extends TestCase
      * @param $vertical
      * @param $forwardSlash
      * @param $backSlash
+     * @throws \DI\DependencyException
+     * @throws \DI\NotFoundException
      * @dataProvider winningPatternProviders
      */
     public function testMustReturnTrueForWinningPatters($horizontal, $vertical, $forwardSlash, $backSlash)
     {
-        $playerOne = new HumanPlayer();
+        $playerOne = $this->container->get('connect4.player.human');
         $playerOne->setToken(Board::TOKEN_PLAYER_ONE);
 
         // Return true for horizontal winning patterns

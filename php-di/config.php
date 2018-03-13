@@ -2,13 +2,17 @@
 
 /**
  * PHP-DI package configuration
- * Contains all of the definitions of objects used in the application
+ * Contains all of the definitions of classes used in the application
  */
+
+use Connect4\Store\MovesStore;
+use Connect4\View\Board;
+
 return [
     // Board Instantiation
-    'connect4.view.board'       => \DI\create('\\Connect4\\View\\Board'),
+    'connect4.view.board'       => \DI\create(Board::class),
     // MoveStore Instantiation
-    'connect4.store.movesStore' => \DI\create('\\Connect4\\Store\\MovesStore'),
+    'connect4.store.movesStore' => \DI\create(MovesStore::class),
     // Human 1 Player Instantiation
     'connect4.player.human'     => function(\Psr\Container\ContainerInterface $c) {
             $player = new \Connect4\Player\HumanPlayer();

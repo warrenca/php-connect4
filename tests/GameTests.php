@@ -22,11 +22,11 @@ class GameTests extends TestCase
     /** @var Container */
     private $container;
 
-    public function __construct($name = null, array $data = [], $dataName = '')
-    {
-        parent::__construct($name, $data, $dataName);
-    }
-
+    /**
+     * @throws \DI\DependencyException
+     * @throws \DI\NotFoundException
+     * @throws \Exception
+     */
     public function setup()
     {
         $builder = new ContainerBuilder();

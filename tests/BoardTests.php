@@ -4,10 +4,32 @@ namespace Connect4\Tests;
 
 
 use Connect4\View\Board;
+use DI\Container;
+use DI\ContainerBuilder;
 use PHPUnit\Framework\TestCase;
 
 final class BoardTests extends TestCase
 {
+    /** @var Board */
+    private $board;
+
+    /** @var Container */
+    private $container;
+
+    /**
+     * @throws \DI\DependencyException
+     * @throws \DI\NotFoundException
+     * @throws \Exception
+     */
+    public function setup()
+    {
+        $builder = new ContainerBuilder();
+        $builder->addDefinitions('./php-di/config.php');
+        $this->container = $builder->build();
+
+        $this->board = $this->container->get('connect4.view.board');
+    }
+
     /**
      * ALl constants must match based on what was defined in the Board class
      */
@@ -26,10 +48,9 @@ final class BoardTests extends TestCase
      */
     public function testOnInitRowsAndColumnsShouldLengthShouldBeAsDefined()
     {
-        $board = new Board();
-        $board->init();
+        $this->board->init();
 
-        $cells = $board->getCells();
+        $cells = $this->board->getCells();
 
         self::assertEquals(count($cells), Board::ROWS);
 
@@ -44,10 +65,9 @@ final class BoardTests extends TestCase
      */
     public function testOnInitCellsShouldBeEmpty()
     {
-        $board = new Board();
-        $board->init();
+        $this->board->init();
 
-        $cells = $board->getCells();
+        $cells = $this->board->getCells();
 
         for ($rowIndex = 0; $rowIndex < Board::ROWS; $rowIndex++)
         {
@@ -68,9 +88,8 @@ final class BoardTests extends TestCase
      */
     public function testCanvasDrawing($cells, $expectedCanvas)
     {
-        $board = new Board();
-        $board->setCells($cells);
-        $canvas = $board->draw(false);
+        $this->board->setCells($cells);
+        $canvas = $this->board->draw(false);
 
         self::assertEquals($expectedCanvas, $canvas);
     }

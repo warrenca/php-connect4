@@ -7,6 +7,8 @@ use Connect4\Player\AiPlayer\DumbAiPlayer;
 use Connect4\Player\PlayerInterface;
 use Connect4\Store\MovesStore;
 use Connect4\View\Board;
+use DI\Container;
+use DI\ContainerBuilder;
 use PHPUnit\Framework\TestCase;
 
 class PlayerTests extends TestCase
@@ -16,10 +18,22 @@ class PlayerTests extends TestCase
     /** @var PlayerInterface */
     private $player;
 
+    /** @var Container */
+    private $container;
 
+
+    /**
+     * @throws \DI\DependencyException
+     * @throws \DI\NotFoundException
+     * @throws \Exception
+     */
     public function setup()
     {
-        $this->player = new DumbAiPlayer();
+        $builder = new ContainerBuilder();
+        $builder->addDefinitions('./php-di/config.php');
+        $this->container = $builder->build();
+
+        $this->player = $this->container->get('connect4.player.ai');
     }
 
     /**
@@ -52,10 +66,12 @@ class PlayerTests extends TestCase
         self::assertFalse($this->player->isHuman());
     }
 
-    /** Must get and set move store */
+    /**
+     * Must get and set move store
+     */
     public function testMustSetAndGetMovesStore()
     {
-        $movesStore = new MovesStore();
+        $movesStore = $this->container->get('connect4.store.movesStore');
         $this->player->setMovesStore($movesStore);
 
         self::assertInstanceOf(MovesStore::class, $this->player->getMovesStore());
