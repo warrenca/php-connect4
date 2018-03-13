@@ -14,8 +14,10 @@
     bootstrap                   = "./bootstrap.php"
     >
     <testsuites>
-        <testsuite name="board">
+        <testsuite name="connect4">
             <file>tests/BoardTests.php</file>
+            <file>tests/PlayerTests.php</file>
+            <file>tests/MovesStoreTests.php</file>
         </testsuite>
     </testsuites>
 </phpunit>

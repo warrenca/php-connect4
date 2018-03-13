@@ -4,7 +4,6 @@ namespace Connect4\Tests;
 
 
 use Connect4\Player\DumbAiPlayer;
-use Connect4\Player\HumanPlayer;
 use Connect4\Player\Player;
 use Connect4\Store\MovesStore;
 use Connect4\View\Board;
@@ -63,6 +62,13 @@ class PlayerTests extends TestCase
         $this->player->setMovesStore($movesStore);
 
         self::assertInstanceOf('Connect4\\Store\\MovesStore', $this->player->getMovesStore());
+    }
+
+    public function testMustHaveAColumnWithinRange()
+    {
+        $column = $this->player->enterColumn();
+
+        self::assertTrue(in_array($column, range(1, Board::COLUMNS)));
     }
 
 //    public function testInputtedColumnMustMatch()

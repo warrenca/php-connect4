@@ -91,7 +91,7 @@ class MovesStore
      * @param $columnIndex
      * @return bool
      */
-    private function isColumnFull($rowIndex, $columnIndex)
+    public function isColumnFull($rowIndex, $columnIndex)
     {
         // Empty up the error before the validations
         $this->setError("");
@@ -112,7 +112,7 @@ class MovesStore
      * @param $columnIndex
      * @return int
      */
-    private function getNextAvailableRowIndex($columnIndex)
+    public function getNextAvailableRowIndex($columnIndex)
     {
         $cells = $this->getCells();
 
@@ -133,7 +133,7 @@ class MovesStore
      * @param $columnIndex
      * @return bool
      */
-    private function isColumnInRange($columnIndex)
+    public function isColumnInRange($columnIndex)
     {
         $this->setError("");
         if ($columnIndex < 0 || $columnIndex > (Board::COLUMNS - 1))
@@ -204,7 +204,7 @@ class MovesStore
      * @param $token
      * @return bool
      */
-    private function checkVerticalPattern($token)
+    public function checkVerticalPattern($token)
     {
         $cells = $this->getCells();
 
@@ -236,7 +236,7 @@ class MovesStore
      * @param $token
      * @return bool
      */
-    private function checkForwardSlashPattern($token)
+    public function checkForwardSlashPattern($token)
     {
         $cells = $this->getCells();
 
@@ -271,7 +271,7 @@ class MovesStore
      * @param $token
      * @return bool
      */
-    private function checkBackSlashPattern($token)
+    public function checkBackSlashPattern($token)
     {
         $cells = $this->getCells();
 
