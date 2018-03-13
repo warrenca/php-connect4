@@ -43,7 +43,7 @@ return [
     'connect4.game'             => function(\Psr\Container\ContainerInterface $c)
     {
         return new \Connect4\Game(  $c->get('connect4.view.board'),
-                                    $c->get('connect4.player.ai'),
+                                    $c->get('connect4.player.human'),
                                     $c->get('connect4.player.smarterAi'),
                                     $c->get('connect4.store.movesStore')
                                   );

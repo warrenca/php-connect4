@@ -303,20 +303,20 @@ class MovesStore
     {
         $cells = $this->getCells();
 
-        // Column start index where it's possible to win
-        $columnStart = (Board::COLUMNS - (self::NUMBER_OF_TOKENS_TO_WIN - 1));
+        // Column end index where it's possible to win
+        $columnEnd = (Board::COLUMNS - (self::NUMBER_OF_TOKENS_TO_WIN - 1));
 
-        // Row start index where it's possible to win
-        $rowStart = (Board::ROWS - (self::NUMBER_OF_TOKENS_TO_WIN - 1));
+        // Row end index where it's possible to win
+        $rowEnd = (Board::ROWS - (self::NUMBER_OF_TOKENS_TO_WIN - 1));
 
-        for ($columnIndex = $columnStart; $columnIndex < Board::COLUMNS; $columnIndex++)
+        for ($rowIndex = 0; $rowIndex < $rowEnd; $rowIndex++)
         {
-            for ($rowIndex = $rowStart; $rowIndex < Board::ROWS; $rowIndex++)
+            for ($columnIndex = 0; $columnIndex < $columnEnd; $columnIndex++)
             {
                 if ($cells[$rowIndex][$columnIndex] === $token
-                    && $cells[$rowIndex-1][$columnIndex-1] === $token
-                    && $cells[$rowIndex-2][$columnIndex-2] === $token
-                    && $cells[$rowIndex-3][$columnIndex-3] === $token
+                    && $cells[$rowIndex+1][$columnIndex+1] === $token
+                    && $cells[$rowIndex+2][$columnIndex+2] === $token
+                    && $cells[$rowIndex+3][$columnIndex+3] === $token
                 )
                 {
                     return true;
