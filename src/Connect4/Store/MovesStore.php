@@ -204,7 +204,7 @@ class MovesStore
         $cells = $this->getCells();
 
         // The highest index where winning is possible
-        $limit = Board::COLUMNS - (self::NUMBER_OF_TOKENS_TO_WIN -1);
+        $limit = self::NUMBER_OF_TOKENS_TO_WIN -1;
 
         for ($rowIndex = (Board::ROWS - 1); $rowIndex > 0; $rowIndex--)
         {
@@ -239,14 +239,14 @@ class MovesStore
         // The highest index where a winning pattern is possible
         $limit = (self::NUMBER_OF_TOKENS_TO_WIN - 1);
 
-        for ($columnIndex = 0; $columnIndex < Board::COLUMNS; $columnIndex++)
+        for ($rowIndex = 0; $rowIndex < $limit; $rowIndex++)
         {
-            for ($rowIndex = (Board::ROWS - 1); $rowIndex >= $limit; $rowIndex--)
+            for ($columnIndex = 0; $columnIndex < Board::COLUMNS; $columnIndex++)
             {
                 if ($cells[$rowIndex][$columnIndex] === $token
-                    && $cells[$rowIndex - 1][$columnIndex] === $token
-                    && $cells[$rowIndex - 2][$columnIndex] === $token
-                    && $cells[$rowIndex - 3][$columnIndex] === $token
+                    && $cells[$rowIndex + 1][$columnIndex] === $token
+                    && $cells[$rowIndex + 2][$columnIndex] === $token
+                    && $cells[$rowIndex + 3][$columnIndex] === $token
                 ) {
                     return true;
                 }
@@ -269,13 +269,13 @@ class MovesStore
         $cells = $this->getCells();
 
         // Column start index where it's possible to win
-        $start = (Board::COLUMNS - self::NUMBER_OF_TOKENS_TO_WIN);
+        $start = self::NUMBER_OF_TOKENS_TO_WIN - 1;
 
         // Row limit index where it's possible to win
-        $limit = (Board::ROWS - self::NUMBER_OF_TOKENS_TO_WIN - 1);
-        for ($columnIndex = $start; $columnIndex < Board::COLUMNS; $columnIndex++)
+        $limit = self::NUMBER_OF_TOKENS_TO_WIN - 1;
+        for ($rowIndex = 0; $rowIndex < $limit; $rowIndex++)
         {
-            for ($rowIndex = 0; $rowIndex < $limit; $rowIndex++)
+            for ($columnIndex = $start; $columnIndex < Board::COLUMNS; $columnIndex++)
             {
                 if ($cells[$rowIndex][$columnIndex] === $token
                     && $cells[$rowIndex+1][$columnIndex-1] === $token
