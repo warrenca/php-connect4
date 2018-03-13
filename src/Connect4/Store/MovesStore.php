@@ -3,7 +3,7 @@
 namespace Connect4\Store;
 
 
-use Connect4\Player\Player;
+use Connect4\Player\PlayerInterface;
 use Connect4\View\Board;
 
 /**
@@ -14,9 +14,16 @@ use Connect4\View\Board;
  */
 class MovesStore
 {
+    /** The number of tokens connected to win the game */
     const NUMBER_OF_TOKENS_TO_WIN = 4;
 
+    /**
+     * Contains all the information about the token positions in the board
+     * @var array
+     */
     private $cells = [];
+
+    /** @var string An error message */
     private $error = "";
 
     /**
@@ -128,6 +135,27 @@ class MovesStore
     }
 
     /**
+     * Get the valid columns that a token can be dropped on
+     *
+     * @return array
+     */
+    public function getValidColumns()
+    {
+        $validColumns = [];
+
+        // Loop through all the columns and check which ones are valid
+        for ($columnIndex = 0; $columnIndex < Board::COLUMNS; $columnIndex++)
+        {
+            if ($this->getNextAvailableRowIndex($columnIndex) >=0)
+            {
+                $validColumns[] = $columnIndex + 1; // + 1 to be human readable
+            }
+        }
+
+        return $validColumns;
+    }
+
+    /**
      * Check whether the selected column is in range
      *
      * @param $columnIndex
@@ -148,10 +176,10 @@ class MovesStore
     /**
      * Check if there's any winner based on some patterns
      *
-     * @param Player $player
+     * @param PlayerInterface $player
      * @return null|string
      */
-    public function checkWinningPatterns(Player $player)
+    public function checkWinningPatterns(PlayerInterface $player)
     {
         $token = $player->getToken();
 

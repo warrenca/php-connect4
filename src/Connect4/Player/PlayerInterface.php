@@ -11,7 +11,7 @@ use Connect4\Store\MovesStore;
  *
  * @package Connect4\Player
  */
-interface Player
+interface PlayerInterface
 {
     /**
      * Get the players name

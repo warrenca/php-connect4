@@ -26,16 +26,16 @@ return [
     // AI 1 Player Instantiation
     'connect4.player.ai'        => function(\Psr\Container\ContainerInterface $c)
     {
-        $player = new \Connect4\Player\DumbAiPlayer();
+        $player = new \Connect4\Player\AiPlayer\DumbAiPlayer();
         $player->setName("Robot 🤖");
         $player->setMovesStore($c->get('connect4.store.movesStore'));
         return $player;
     },
     // AI 2 Player Instantiation, used in the test
-    'connect4.player.ai2'        => function(\Psr\Container\ContainerInterface $c)
+    'connect4.player.smarterAi'        => function(\Psr\Container\ContainerInterface $c)
     {
-        $player = new \Connect4\Player\DumbAiPlayer();
-        $player->setName("Robot 2 🤖");
+        $player = new \Connect4\Player\AiPlayer\SmarterAiPlayer();
+        $player->setName("Smarter Robot 🤖");
         $player->setMovesStore($c->get('connect4.store.movesStore'));
         return $player;
     },
@@ -44,7 +44,7 @@ return [
     {
         return new \Connect4\Game(  $c->get('connect4.view.board'),
                                     $c->get('connect4.player.human'),
-                                    $c->get('connect4.player.ai'),
+                                    $c->get('connect4.player.smarterAi'),
                                     $c->get('connect4.store.movesStore')
                                   );
     },
@@ -53,7 +53,7 @@ return [
     {
         return new \Connect4\Game(  $c->get('connect4.view.board'),
             $c->get('connect4.player.ai'),
-            $c->get('connect4.player.ai2'),
+            $c->get('connect4.player.smarterAi'),
             $c->get('connect4.store.movesStore')
         );
     }

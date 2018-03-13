@@ -3,7 +3,7 @@
 namespace Connect4;
 
 
-use Connect4\Player\Player;
+use Connect4\Player\PlayerInterface;
 use Connect4\Store\MovesStore;
 use Connect4\View\Board;
 
@@ -20,22 +20,22 @@ use Connect4\View\Board;
  */
 class Game
 {
-    /** @var Player $playerOne */
+    /** @var PlayerInterface $playerOne */
     private $playerOne;
 
-    /** @var Player $playerTwo */
+    /** @var PlayerInterface $playerTwo */
     private $playerTwo;
 
     /** @var Board board */
     private $board;
 
-    /** @var Player $winner */
+    /** @var PlayerInterface $winner */
     private $winner;
 
     /** @var MovesStore $movesStore */
     private $movesStore;
 
-    /** @var Player $currentPlayer */
+    /** @var PlayerInterface $currentPlayer */
     private $currentPlayer;
 
     /** @var int $maximumTurns */
@@ -44,11 +44,11 @@ class Game
     /**
      * Game constructor.
      * @param Board $board
-     * @param Player $playerOne
-     * @param Player $playerTwo
+     * @param PlayerInterface $playerOne
+     * @param PlayerInterface $playerTwo
      * @param MovesStore $movesStore
      */
-    public function __construct(Board $board, Player $playerOne, Player $playerTwo, MovesStore $movesStore)
+    public function __construct(Board $board, PlayerInterface $playerOne, PlayerInterface $playerTwo, MovesStore $movesStore)
     {
         $this->setBoard($board);
         $this->setPlayerOne($playerOne);
@@ -100,7 +100,24 @@ class Game
         // While there's no winner or the maximum turns hasn't been reached
         while (!$this->getWinner() && $turn < $this->getMaximumTurns())
         {
-            $this->initiateMove($turn);
+            if ($turn % 2)
+            {
+                // If mod is 1 or true
+                // It's Player 2's turn
+                $this->setCurrentPlayer($this->getPlayerTwo());
+            } else {
+                // It's Player 1's turn
+                $this->setCurrentPlayer($this->getPlayerOne());
+            }
+
+            if ($this->getCurrentPlayer()->isHuman())
+            {
+                // Only show column hints to a human
+                $validColumns = $this->getMovesStore()->getValidColumns();
+                printInfo(sprintf('Please select from the column numbers %s', implode(', ', $validColumns)));
+            }
+
+            $this->initiateMove();
 
             if ($this->getMovesStore()->checkWinningPatterns($this->getCurrentPlayer()))
             {
@@ -141,21 +158,9 @@ class Game
 
     /**
      * Ask (human) or get (AI) the players desired move
-     *
-     * @param $turn
      */
-    private function initiateMove($turn)
+    private function initiateMove()
     {
-        if ($turn % 2)
-        {
-            // If mod is 1 or true
-            // It's Player 2's turn
-            $this->setCurrentPlayer($this->getPlayerTwo());
-        } else {
-            // It's Player 1's turn
-            $this->setCurrentPlayer($this->getPlayerOne());
-        }
-
         $columnIndex = $this->getCurrentPlayer()->enterColumn() - 1;
 
         // Drop the token to the designated column
@@ -169,7 +174,7 @@ class Game
             }
 
             // Ask to make another move since there's an error
-            $this->initiateMove($turn);
+            $this->initiateMove();
         } else {
             // There's a valid move so we'll print that information
             $humanReadableColumn = "C" . ($columnIndex + 1);
@@ -182,7 +187,7 @@ class Game
     }
 
     /**
-     * @return Player
+     * @return PlayerInterface
      */
     public function getWinner()
     {
@@ -190,15 +195,15 @@ class Game
     }
 
     /**
-     * @param Player $player
+     * @param PlayerInterface $player
      */
-    public function setWinner(Player $player = null)
+    public function setWinner(PlayerInterface $player = null)
     {
         $this->winner = $player;
     }
 
     /**
-     * @return Player
+     * @return PlayerInterface
      */
     public function getCurrentPlayer()
     {
@@ -206,7 +211,7 @@ class Game
     }
 
     /**
-     * @param Player $currentPlayer
+     * @param PlayerInterface $currentPlayer
      */
     public function setCurrentPlayer($currentPlayer)
     {
@@ -230,7 +235,7 @@ class Game
     }
 
     /**
-     * @return Player
+     * @return PlayerInterface
      */
     public function getPlayerOne()
     {
@@ -238,7 +243,7 @@ class Game
     }
 
     /**
-     * @param Player $playerOne
+     * @param PlayerInterface $playerOne
      */
     public function setPlayerOne($playerOne)
     {
@@ -246,7 +251,7 @@ class Game
     }
 
     /**
-     * @return Player
+     * @return PlayerInterface
      */
     public function getPlayerTwo()
     {
@@ -254,7 +259,7 @@ class Game
     }
 
     /**
-     * @param Player $playerTwo
+     * @param PlayerInterface $playerTwo
      */
     public function setPlayerTwo($playerTwo)
     {

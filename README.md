@@ -4,6 +4,23 @@ Connect Four (also known as Captain's Mistress, Four Up, Plot Four, Find Four, F
 
 ### Assumptions ###
 
+1. An interactive text console game ✅
+2. Written in Ruby or PHP ✅
+3. Game board should be 7 columns by 6 rows ✅
+4. Show a graphical ascii representation of state of game between each move ✅
+5. Has a human player and a computer player ✅
+6. When it is player’s move: prompt for which column to drop token into ✅
+7. Indicate which moves are valid before prompting ✅
+8. Show an error message when an invalid column is given, and prompt again ✅
+9. Computer move: computer player can be dumb, but it must make a valid move ✅
+10. Detect and announce winner immediately after winning move is made ✅
+11. The software design should allow for easily replacing the computer player /
+adding a new computer player - i.e. the design makes it easy to add a smart
+computer player in the future, or even choose between different computer player
+strategies, or have two human players, or two computer players ✅
+12. There may be opportunity to use patterns like MVC, dependency injection. Expect to see
+unit testing. Prefer minimal dependencies. ✅
+
 ### Concepts ###
 
 - This project is well tested using `PHPUnit` testing framework.
@@ -13,6 +30,18 @@ Connect Four (also known as Captain's Mistress, Four Up, Plot Four, Find Four, F
 - Moreover, the `(view) Board class`  act as the manager to display the game movements visually.
 - Finally, the `(controller) Game class`  directs the game.
 
+#### File and Directory Structure ####
+
+* `php-di` - definition and configuration of dependency injection + container
+* `src/Connect4` - A directory for all the classes used to run the game
+* `src/Connect4/Game.php` - A file that links tha Players, its movements (`MovesStore class`) and how to display it (`Board class`); 
+* `src/Connect4/Player` - A directory for Player related Classes
+* `src/Connect4/Store` - A directory related to storing and retrieving data from the game
+* `src/Connect4/View` - A directory related to displaying the movements to the user
+* `tests` - A directory for project testing
+* `utils` - A directory for helper functions
+* `bootstrap.php` - A file that load all the required classes for the game to run
+* `main.php` - The main file that will run the game
 
 ### What is this repository for? ###
 
@@ -24,7 +53,7 @@ Connect Four (also known as Captain's Mistress, Four Up, Plot Four, Find Four, F
 
 #### Configuration
 
-Currently the config is set between Human and a dumb AI.
+Currently the config is set between Human and a smarterAI.
 To change the player settings, open up the file `./php-di/config.php` 
 and change the parameters of the `Game class`. Possible configs are below.
 
@@ -33,7 +62,7 @@ and change the parameters of the `Game class`. Possible configs are below.
 
 return new \Connect4\Game(  $c->get('connect4.view.board'),
                             $c->get('connect4.player.human'),
-                            $c->get('connect4.player.ai'),
+                            $c->get('connect4.player.smarterAi'),
                             $c->get('connect4.store.movesStore')
                           );
 
@@ -49,7 +78,7 @@ return new \Connect4\Game(  $c->get('connect4.view.board'),
 
 return new \Connect4\Game(  $c->get('connect4.view.board'),
                             $c->get('connect4.player.ai'),
-                            $c->get('connect4.player.ai2'),
+                            $c->get('connect4.player.smarterAi'),
                             $c->get('connect4.store.movesStore')
                           );
 ```
@@ -105,11 +134,11 @@ Run `composer test`
 > phpunit
 PHPUnit 7.0.2 by Sebastian Bergmann and contributors.
 
-...............................                                   31 / 31 (100%)
+................................                                  32 / 32 (100%)
 
-Time: 2.04 seconds, Memory: 4.00MB
+Time: 1.43 seconds, Memory: 4.00MB
 
-OK (31 tests, 108 assertions)
+OK (32 tests, 109 assertions)
 
 ```
 

@@ -65,6 +65,19 @@ class MovesStoreTests extends TestCase
         self::assertEquals("Column 2 is already full, please choose a different column.", $this->movesStore->getError());
     }
 
+    /**
+     * Must omit column 2 since it's already full
+     *
+     * @dataProvider cellProvider1
+     * @param $cells
+     */
+    public function testMustReturnValidColumns($cells)
+    {
+        $this->movesStore->setCells($cells);
+        $validColumns = implode(', ', $this->movesStore->getValidColumns());
+        $this->assertEquals('1, 3, 4, 5, 6, 7', $validColumns);
+    }
+
     /** Must return false if the column is not full */
     public function testMustReturnFalseIfColumnIsNotFull()
     {

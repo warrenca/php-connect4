@@ -10,13 +10,25 @@ namespace Connect4\View;
  */
 class Board
 {
+    /** A representation of an empty cell */
     const TOKEN_EMPTY_CELL = '[ ]';
+
+    /** A representation of player one's occupied cell */
     const TOKEN_PLAYER_ONE = '[X]';
+
+    /** A representation of player two's occupied cell */
     const TOKEN_PLAYER_TWO = '[O]';
 
+    /** The number of board row */
     const ROWS = 6;
+
+    /** The number of board column */
     const COLUMNS = 7;
 
+    /**
+     * Contains all the information about the token positions in the board
+     * @var array
+     */
     private $cells = [];
 
     /**

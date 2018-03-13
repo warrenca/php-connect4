@@ -11,7 +11,7 @@ use Connect4\Store\MovesStore;
  *
  * @package Connect4\Player
  */
-abstract class PlayerAbstract implements Player
+abstract class PlayerAbstract implements PlayerInterface
 {
     private $token;
 

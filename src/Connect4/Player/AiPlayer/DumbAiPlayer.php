@@ -1,8 +1,9 @@
 <?php
 
-namespace Connect4\Player;
+namespace Connect4\Player\AiPlayer;
 
 
+use Connect4\Player\PlayerAbstract;
 use Connect4\View\Board;
 
 /**
@@ -10,7 +11,7 @@ use Connect4\View\Board;
  *
  * @package Connect4\Player
  */
-class DumbAiPlayer extends PlayerAbstract
+class DumbAiPlayer extends PlayerAbstract implements AiPlayerInterface
 {
     const IS_HUMAN = false;
 
@@ -31,7 +32,7 @@ class DumbAiPlayer extends PlayerAbstract
         // return $this->smartColumnSelection();
     }
 
-    private function smartColumnSelection()
+    public function smartColumnSelection()
     {
         // If we want a smart column selection that will block an opponents move
         // and will try to win, we can do it here.

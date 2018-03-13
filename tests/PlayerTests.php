@@ -3,17 +3,17 @@
 namespace Connect4\Tests;
 
 
-use Connect4\Player\DumbAiPlayer;
-use Connect4\Player\Player;
+use Connect4\Player\AiPlayer\DumbAiPlayer;
+use Connect4\Player\PlayerInterface;
 use Connect4\Store\MovesStore;
 use Connect4\View\Board;
 use PHPUnit\Framework\TestCase;
 
 class PlayerTests extends TestCase
 {
-    const NAME = "DumpAI";
+    const NAME = "DumbAI";
 
-    /** @var Player */
+    /** @var PlayerInterface */
     private $player;
 
 
@@ -58,7 +58,7 @@ class PlayerTests extends TestCase
         $movesStore = new MovesStore();
         $this->player->setMovesStore($movesStore);
 
-        self::assertInstanceOf('Connect4\\Store\\MovesStore', $this->player->getMovesStore());
+        self::assertInstanceOf(MovesStore::class, $this->player->getMovesStore());
     }
 
     /** Must check that the column entered by the user is within range */

@@ -4,7 +4,13 @@ namespace Connect4\Tests;
 
 
 use Connect4\Game;
+use Connect4\Player\AiPlayer\DumbAiPlayer;
+use Connect4\Player\AiPlayer\SmarterAiPlayer;
+use Connect4\Player\HumanPlayer;
+use Connect4\Player\PlayerAbstract;
+use Connect4\Store\MovesStore;
 use Connect4\View\Board;
+use DI\Container;
 use DI\ContainerBuilder;
 use PHPUnit\Framework\TestCase;
 
@@ -12,6 +18,8 @@ class GameTests extends TestCase
 {
     /** @var Game */
     private $game;
+
+    /** @var Container */
     private $container;
 
     public function __construct($name = null, array $data = [], $dataName = '')
@@ -31,47 +39,47 @@ class GameTests extends TestCase
     /** Must get the MovesStore instance */
     public function testMustGetMoveStore()
     {
-        self::assertInstanceOf("Connect4\\Store\\MovesStore", $this->game->getMovesStore());
+        self::assertInstanceOf(MovesStore::class, $this->game->getMovesStore());
     }
 
     /** Must get the Board instance */
     public function testMustGetBoard()
     {
-        self::assertInstanceOf("Connect4\\View\\Board", $this->game->getBoard());
+        self::assertInstanceOf(Board::class, $this->game->getBoard());
     }
 
     /** Must get the PlayerOne instance */
     public function testMustGetPlayerOne()
     {
-        self::assertInstanceOf("Connect4\\Player\\DumbAiPlayer", $this->game->getPlayerOne());
+        self::assertInstanceOf(DumbAiPlayer::class, $this->game->getPlayerOne());
     }
 
     /** Must not get playerOne as an instance of HumanPlayer */
     public function testMustNotGetPlayerOne()
     {
-        self::assertNotInstanceOf("Connect4\\Player\\HumanPlayer", $this->game->getPlayerOne());
+        self::assertNotInstanceOf(HumanPlayer::class, $this->game->getPlayerOne());
     }
 
     /** Must get players instance as PlayerAbstract */
     public function testMustGetPlayersAsPlayerAbstract()
     {
-        self::assertInstanceOf("Connect4\\Player\\PlayerAbstract", $this->game->getPlayerOne());
-        self::assertInstanceOf("Connect4\\Player\\PlayerAbstract", $this->game->getPlayerTwo());
+        self::assertInstanceOf(PlayerAbstract::class, $this->game->getPlayerOne());
+        self::assertInstanceOf(PlayerAbstract::class, $this->game->getPlayerTwo());
     }
 
     /** Must get and set the current player of the game */
     public function testMustSetAndGetCurrentPlayer()
     {
         $this->game->setCurrentPlayer($this->game->getPlayerTwo());
-        self::assertInstanceOf("Connect4\\Player\\DumbAiPlayer", $this->game->getCurrentPlayer());
-        self::assertEquals("Robot 2 🤖", $this->game->getCurrentPlayer()->getName());
+        self::assertInstanceOf(SmarterAiPlayer::class, $this->game->getCurrentPlayer());
+        self::assertEquals("Smarter Robot 🤖", $this->game->getCurrentPlayer()->getName());
     }
 
     /** Must get and set the winning player of the game */
     public function testMustSetAndGetWinner()
     {
         $this->game->setWinner($this->game->getPlayerOne());
-        self::assertInstanceOf("Connect4\\Player\\DumbAiPlayer", $this->game->getWinner());
+        self::assertInstanceOf(DumbAiPlayer::class, $this->game->getWinner());
         self::assertEquals("Robot 🤖", $this->game->getWinner()->getName());
     }
 
@@ -91,7 +99,7 @@ class GameTests extends TestCase
         $this->setOutputCallback(function() {});
         $this->game->setup();
         self::assertEquals($this->container->get('connect4.player.ai'), $this->game->getPlayerOne());
-        self::assertEquals($this->container->get('connect4.player.ai2'), $this->game->getPlayerTwo());
+        self::assertEquals($this->container->get('connect4.player.smarterAi'), $this->game->getPlayerTwo());
         self::assertEquals($this->game->getMovesStore()->getCells(), $this->game->getBoard()->getCells());
     }
 
