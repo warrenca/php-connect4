@@ -1,6 +1,7 @@
 {
     "name": "warrenca/connect4",
     "description": "A Connect4 Game simulator",
+    "version": "1.0.0",
     "type": "project",
     "require": {
         "php-di/php-di": "^6.0"

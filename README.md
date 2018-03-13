@@ -46,7 +46,7 @@ unit testing. Prefer minimal dependencies. ✅
 ### What is this repository for? ###
 
 * This project is a simulation of Connect4 game. The possible match ups are: Human vs Human, Human vs AI, AI vs AI.
-* v1.0
+* v1.0.0
 * [Source Code](https://bitbucket.org/warrenca/connect4/)
 
 ### How do I get set up? ###
