@@ -2,6 +2,8 @@
 
 Connect Four (also known as Captain's Mistress, Four Up, Plot Four, Find Four, Four in a Row, Four in a Line and Gravitrips) is a two-player connection game in which the players first choose a color and then take turns dropping colored discs from the top into a seven-column, six-row vertically suspended grid.
 
+### Assumptions ###
+
 ### Concepts ###
 
 - This project is well tested using `PHPUnit` testing framework.

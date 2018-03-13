@@ -67,10 +67,13 @@ class Game
         $this->getPlayerTwo()->setToken(Board::TOKEN_PLAYER_TWO);
 
         $this->printInfo(
-            "Hey! Welcome to Connect4 game simulation.\n" .
-                "It is a turn based game between two players.\n".
-                "Each player simply needs to enter a column number and\n" .
-                "try to Connect4 tokens of their own by horizontal, vertical and diagonal.\n" .
+            "Hey! Welcome to Connect4 game simulation.\n"  .
+                "It is a turn based game between two players.\n" .
+                "Each player simply needs to enter a column number \n".
+                "where they want to drop their token.\n" .
+                "To win, they must Connect4 tokens of their own either\n" .
+                "horizontally, vertically and diagonally.\n" .
+                "No one wins when neither player Connect's 4 token.\n" .
                 "--------------------------------------\n" .
                 "The players are...\n" .
                 sprintf("Player One: Name %s, Token %s\n", $this->playerOne->getName(), $this->playerOne->getToken()) .
