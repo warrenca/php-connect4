@@ -40,12 +40,12 @@ unit testing. Prefer minimal dependencies. ✅
 * `src/Connect4/View` - A directory related to displaying the movements to the user
 * `tests` - A directory for project testing
 * `utils` - A directory for helper functions
-* `bootstrap.php` - A file that load all the required classes for the game to run
+* `bootstrap.php` - A file that loads all the required classes for the game to run
 * `main.php` - The main file that will run the game
 
 ### What is this repository for? ###
 
-* This project is a an interactive Connect4 game. The possible match ups are: Human vs Human, Human vs AI, AI vs AI.
+* This project is a an interactive Connect4 game. The possible match ups are: Human vs Human, Human vs AI and AI vs AI.
 * v1.0.0
 * [Source Code](https://bitbucket.org/warrenca/connect4/)
 
@@ -55,7 +55,6 @@ unit testing. Prefer minimal dependencies. ✅
 
 There's no configuration required for the game to play.
 The game lets you choose from different game modes: Human vs Human, Human vs AI and AI vs AI.
-Although, the file `./php-di/config.php` holds the dependency injection settings.
 
 #### Dependencies
 
@@ -83,11 +82,11 @@ Please choose a game mode.
 Enter 1, 2 or 3: 2
 
 Hey! Welcome to Connect4 game.
-It is a turn based game between two players.
+It is a turn-based game between two players.
 Each player simply needs to enter a column number 
 where they want to drop their token.
 To win, they must Connect4 tokens of their own either
-horizontally, vertically and diagonally.
+horizontally, vertically or diagonally.
 No one wins when neither player Connect's 4 token.
 --------------------------------------
 The players are...

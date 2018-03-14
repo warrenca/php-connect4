@@ -68,11 +68,11 @@ class Game
 
         printInfo(
             "Hey! Welcome to Connect4 game.\n"  .
-                "It is a turn based game between two players.\n" .
+                "It is a turn-based game between two players.\n" .
                 "Each player simply needs to enter a column number \n".
                 "where they want to drop their token.\n" .
                 "To win, they must Connect4 tokens of their own either\n" .
-                "horizontally, vertically and diagonally.\n" .
+                "horizontally, vertically or diagonally.\n" .
                 "No one wins when neither player Connect's 4 token.\n" .
                 "--------------------------------------\n" .
                 "The players are...\n" .
