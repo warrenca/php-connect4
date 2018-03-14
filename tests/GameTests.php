@@ -33,23 +33,23 @@ class GameTests extends TestCase
         $builder->addDefinitions('./php-di/config.php');
 
         $this->container = $builder->build();
-        $this->game = $this->container->get('connect4.gameTest');
+        $this->game = $this->container->get('connect4.game.ai.v.ai');
     }
 
     /** Must get the MovesStore instance */
-    public function testMustGetMoveStore()
+    public function testMustGetMovesStoreClass()
     {
         self::assertInstanceOf(MovesStore::class, $this->game->getMovesStore());
     }
 
     /** Must get the Board instance */
-    public function testMustGetBoard()
+    public function testMustGetBoardClass()
     {
         self::assertInstanceOf(Board::class, $this->game->getBoard());
     }
 
     /** Must get the PlayerOne instance */
-    public function testMustGetPlayerOne()
+    public function testMustGetPlayerOneAsDumbAiPlayerClass()
     {
         self::assertInstanceOf(DumbAiPlayer::class, $this->game->getPlayerOne());
     }
@@ -76,7 +76,7 @@ class GameTests extends TestCase
     }
 
     /** Must get and set the winning player of the game */
-    public function testMustSetAndGetWinner()
+    public function testMustSetAndGetAWinner()
     {
         $this->game->setWinner($this->game->getPlayerOne());
         self::assertInstanceOf(DumbAiPlayer::class, $this->game->getWinner());
@@ -93,7 +93,7 @@ class GameTests extends TestCase
      * Game relates settings must match what was defined in the setup
      * Look for the definition here $this->container->get('connect4.gameTest')
      */
-    public function testMustMatchDefinedSetup()
+    public function testMustMatchClassSetup()
     {
         // Hide the console output
         $this->setOutputCallback(function() {});

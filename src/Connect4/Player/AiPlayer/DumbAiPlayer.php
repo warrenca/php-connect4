@@ -32,6 +32,9 @@ class DumbAiPlayer extends PlayerAbstract implements AiPlayerInterface
         // return $this->smartColumnSelection();
     }
 
+    /**
+     * @inheritdoc
+     */
     public function smartColumnSelection()
     {
         // If we want a smart column selection that will block an opponents move

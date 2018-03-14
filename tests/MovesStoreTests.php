@@ -122,7 +122,9 @@ class MovesStoreTests extends TestCase
 
         // Column out of range
         self::assertFalse($this->movesStore->dropToken(Board::COLUMNS, Board::TOKEN_PLAYER_TWO));
-        self::assertEquals("Invalid column, please only choose from 1, 2, 3, 4, 5, 6, 7", $this->movesStore->getError());
+
+        // Column 2 is full, so don't suggest it
+        self::assertEquals("Invalid column, please only choose from 1, 3, 4, 5, 6, 7", $this->movesStore->getError());
     }
 
     /**
@@ -138,10 +140,16 @@ class MovesStoreTests extends TestCase
     }
 
     /** Must return false if the column is not in range */
-    public function testMustReturnFalseIfColumnIsNotInRange()
+    /**
+     * @dataProvider cellProvider1
+     */
+    public function testMustReturnFalseIfColumnIsNotInRange($cells)
     {
+        $this->movesStore->setCells($cells);
         self::assertFalse($this->movesStore->isColumnInRange(Board::COLUMNS));
-        self::assertEquals("Invalid column, please only choose from 1, 2, 3, 4, 5, 6, 7", $this->movesStore->getError());
+
+        // Column 2 is full, so don't suggest it
+        self::assertEquals("Invalid column, please only choose from 1, 3, 4, 5, 6, 7", $this->movesStore->getError());
     }
 
     /**
@@ -155,6 +163,7 @@ class MovesStoreTests extends TestCase
 
         // Column is full
         self::assertEquals(-1, $this->movesStore->getNextAvailableRowIndex(1));
+        // Fillable column
         self::assertEquals(4, $this->movesStore->getNextAvailableRowIndex(0));
     }
 
@@ -192,6 +201,39 @@ class MovesStoreTests extends TestCase
         $this->movesStore->setCells($backSlash);
         self::assertTrue($this->movesStore->checkBackSlashPattern(Board::TOKEN_PLAYER_ONE));
         self::assertTrue($this->movesStore->checkWinningPatterns($playerOne));
+    }
+
+    /**
+     * @dataProvider noWinnerPatternProviders
+     */
+    public function testMustReturnFalseWhenTheresNoWinnerInThePattern($cells)
+    {
+        $playerOne = $this->container->get('connect4.player.human');
+        $playerOne->setToken(Board::TOKEN_PLAYER_ONE);
+
+        $playerTwo = $this->container->get('connect4.player.ai');
+        $playerTwo->setToken(Board::TOKEN_PLAYER_TWO);
+
+        // Return true for horizontal winning patterns
+        $this->movesStore->setCells($cells);
+        self::assertFalse($this->movesStore->checkWinningPatterns($playerOne));
+        self::assertFalse($this->movesStore->checkWinningPatterns($playerTwo));
+    }
+
+    public function noWinnerPatternProviders()
+    {
+        $cells = [
+            [Board::TOKEN_PLAYER_TWO, Board::TOKEN_PLAYER_TWO, Board::TOKEN_PLAYER_TWO, Board::TOKEN_PLAYER_ONE, Board::TOKEN_PLAYER_TWO, Board::TOKEN_PLAYER_TWO, Board::TOKEN_PLAYER_TWO],
+            [Board::TOKEN_PLAYER_ONE, Board::TOKEN_PLAYER_ONE, Board::TOKEN_PLAYER_ONE, Board::TOKEN_PLAYER_TWO, Board::TOKEN_PLAYER_ONE, Board::TOKEN_PLAYER_ONE, Board::TOKEN_PLAYER_ONE],
+            [Board::TOKEN_PLAYER_TWO, Board::TOKEN_PLAYER_TWO, Board::TOKEN_PLAYER_TWO, Board::TOKEN_PLAYER_ONE, Board::TOKEN_PLAYER_TWO, Board::TOKEN_PLAYER_TWO, Board::TOKEN_PLAYER_TWO],
+            [Board::TOKEN_PLAYER_ONE, Board::TOKEN_PLAYER_ONE, Board::TOKEN_PLAYER_ONE, Board::TOKEN_PLAYER_TWO, Board::TOKEN_PLAYER_ONE, Board::TOKEN_PLAYER_ONE, Board::TOKEN_PLAYER_ONE],
+            [Board::TOKEN_PLAYER_TWO, Board::TOKEN_PLAYER_TWO, Board::TOKEN_PLAYER_TWO, Board::TOKEN_PLAYER_ONE, Board::TOKEN_PLAYER_TWO, Board::TOKEN_PLAYER_TWO, Board::TOKEN_PLAYER_TWO],
+            [Board::TOKEN_PLAYER_ONE, Board::TOKEN_PLAYER_ONE, Board::TOKEN_PLAYER_ONE, Board::TOKEN_PLAYER_TWO, Board::TOKEN_PLAYER_ONE, Board::TOKEN_PLAYER_ONE, Board::TOKEN_PLAYER_ONE],
+        ];
+
+        return [
+            [$cells]
+        ];
     }
 
     public function winningPatternProviders()

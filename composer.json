@@ -1,6 +1,6 @@
 {
     "name": "warrenca/connect4",
-    "description": "A Connect4 Game simulator",
+    "description": "A Connect4 Game",
     "version": "1.0.0",
     "type": "project",
     "require": {
@@ -27,7 +27,7 @@
         "phpunit/phpunit": "^7.0"
     },
     "scripts": {
-        "test": "phpunit"
+        "test": "phpunit --testdox"
     },
     "scripts-descriptions": {
         "test": "Run all tests!"

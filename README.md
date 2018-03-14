@@ -1,4 +1,4 @@
-# Connect4 game simulation #
+# Interactive Connect4 game #
 
 Connect Four (also known as Captain's Mistress, Four Up, Plot Four, Find Four, Four in a Row, Four in a Line and Gravitrips) is a two-player connection game in which the players first choose a color and then take turns dropping colored discs from the top into a seven-column, six-row vertically suspended grid.
 
@@ -32,7 +32,7 @@ unit testing. Prefer minimal dependencies. ✅
 
 #### File and Directory Structure ####
 
-* `php-di` - definition and configuration of dependency injection + container
+* `php-di` - The definition and configuration of dependency injection + DI container
 * `src/Connect4` - A directory for all the classes used to run the game
 * `src/Connect4/Game.php` - A file that links tha Players, its movements (`MovesStore class`) and how to display it (`Board class`); 
 * `src/Connect4/Player` - A directory for Player related Classes
@@ -45,7 +45,7 @@ unit testing. Prefer minimal dependencies. ✅
 
 ### What is this repository for? ###
 
-* This project is a simulation of Connect4 game. The possible match ups are: Human vs Human, Human vs AI, AI vs AI.
+* This project is a an interactive Connect4 game. The possible match ups are: Human vs Human, Human vs AI, AI vs AI.
 * v1.0.0
 * [Source Code](https://bitbucket.org/warrenca/connect4/)
 
@@ -53,35 +53,9 @@ unit testing. Prefer minimal dependencies. ✅
 
 #### Configuration
 
-Currently the config is set between Human and a smarterAI.
-To change the player settings, open up the file `./php-di/config.php` 
-and change the parameters of the `Game class`. Possible configs are below.
-
-```
-# Human vs AI
-
-return new \Connect4\Game(  $c->get('connect4.view.board'),
-                            $c->get('connect4.player.human'),
-                            $c->get('connect4.player.smarterAi'),
-                            $c->get('connect4.store.movesStore')
-                          );
-
-# Human vs Human
-
-return new \Connect4\Game(  $c->get('connect4.view.board'),
-                            $c->get('connect4.player.human'),
-                            $c->get('connect4.player.human2'),
-                            $c->get('connect4.store.movesStore')
-                          );
-
-# AI vs AI
-
-return new \Connect4\Game(  $c->get('connect4.view.board'),
-                            $c->get('connect4.player.ai'),
-                            $c->get('connect4.player.smarterAi'),
-                            $c->get('connect4.store.movesStore')
-                          );
-```
+There's no configuration required for the game to play.
+The game lets you choose from different game modes: Human vs Human, Human vs AI and AI vs AI.
+Although, the file `./php-di/config.php` holds the dependency injection settings.
 
 #### Dependencies
 
@@ -100,7 +74,15 @@ Run `composer install`
 Run `php main.php`
 
 ```
-Hey! Welcome to Connect4 game simulation.
+Connect4 Game!
+Please choose a game mode.
+1) Human vs Human
+2) Human vs AI
+3) AI vs AI
+ 
+Enter 1, 2 or 3: 2
+
+Hey! Welcome to Connect4 game.
 It is a turn based game between two players.
 Each player simply needs to enter a column number 
 where they want to drop their token.
@@ -131,23 +113,61 @@ Human 👤[X]) Enter a column number:
 Run `composer test`
 
 ```
-> phpunit
+> phpunit --testdox
 PHPUnit 7.0.2 by Sebastian Bergmann and contributors.
 
-................................                                  32 / 32 (100%)
+Connect4\Tests\BoardTests
+ ✔ Constants should be as defined
+ ✔ On init rows and columns length should be as defined
+ ✔ On init cells should be empty
+ ✔ Canvas drawing should be as expected data set #0
 
-Time: 1.43 seconds, Memory: 4.00MB
+Connect4\Tests\PlayerTests
+ ✔ Must set and get name data set #0
+ ✔ Must set and get token
+ ✔ Must be a human or ai
+ ✔ Must set and get moves store class
+ ✔ Must have selected a column within range
 
-OK (32 tests, 109 assertions)
+Connect4\Tests\MovesStoreTests
+ ✔ Constants should be as defined
+ ✔ Must set and get cells data set #0
+ ✔ Must set and get error
+ ✔ Must return true if column is full data set #0
+ ✔ Must return valid columns data set #0
+ ✔ Must return false if column is not full
+ ✔ Must return true if column is in range
+ ✔ Must return false when dropping to incorrect column index data set #0
+ ✔ Must return true when dropping to correct column index data set #0
+ ✔ Must return false if column is not in range data set #0
+ ✔ Must get the correct row index data set #0
+ ✔ Must return true for winning patters data set #0
+ ✔ Must return false when theres no winner in the pattern data set #0
 
+Connect4\Tests\GameTests
+ ✔ Must get moves store class
+ ✔ Must get board class
+ ✔ Must get player one as dumb ai player class
+ ✔ Must not get player one
+ ✔ Must get players as player abstract
+ ✔ Must set and get current player
+ ✔ Must set and get a winner
+ ✔ Must return maximum turns
+ ✔ Must match class setup
+ ✔ Must return a winner
+ ✔ Must return no winner
+
+Time: 2.04 seconds, Memory: 4.00MB
+
+OK (33 tests, 111 assertions)
 ```
 
 ### Contribution guidelines ###
 
 #### Writing tests
 
-All test are found in `./tests` directory. This project is using `phpunit` testing framework.
-The test configuration can be found in `phpunit.xml`.
+This project is using `phpunit` testing framework.
+Add new tests in `./tests` directory and in PHPUnit test configuration file `phpunit.xml`.
 
 ### Who do I talk to? ###
 

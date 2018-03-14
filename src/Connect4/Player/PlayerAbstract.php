@@ -13,18 +13,20 @@ use Connect4\Store\MovesStore;
  */
 abstract class PlayerAbstract implements PlayerInterface
 {
+    /** @var string */
     private $token;
 
+    /** @var string */
     private $name;
 
+    /** @var MovesStore */
     private $movesStore;
 
+    /** @var bool */
     private $humanStatus;
 
     /**
-     * Tells if the player is human
-     *
-     * @return bool
+     * @inheritdoc
      */
     public function isHuman()
     {
@@ -32,9 +34,7 @@ abstract class PlayerAbstract implements PlayerInterface
     }
 
     /**
-     * Sets the name of the player
-     *
-     * @param $name
+     * @inheritdoc
      */
     public function setName($name)
     {
@@ -42,7 +42,7 @@ abstract class PlayerAbstract implements PlayerInterface
     }
 
     /**
-     * @return mixed
+     * @inheritdoc
      */
     public function getName()
     {
@@ -50,9 +50,7 @@ abstract class PlayerAbstract implements PlayerInterface
     }
 
     /**
-     * Set the token for the player
-     *
-     * @param $token
+     * @inheritdoc
      */
     public function setToken($token)
     {
@@ -60,7 +58,7 @@ abstract class PlayerAbstract implements PlayerInterface
     }
 
     /**
-     * @return mixed
+     * @inheritdoc
      */
     public function getToken()
     {
@@ -68,7 +66,7 @@ abstract class PlayerAbstract implements PlayerInterface
     }
 
     /**
-     * @return MovesStore
+     * @inheritdoc
      */
     public function getMovesStore()
     {
@@ -76,13 +74,16 @@ abstract class PlayerAbstract implements PlayerInterface
     }
 
     /**
-     * @param MovesStore $movesStore
+     * @inheritdoc
      */
     public function setMovesStore(MovesStore $movesStore)
     {
         $this->movesStore = $movesStore;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function setHumanStatus($humanStatus)
     {
         $this->humanStatus = $humanStatus;

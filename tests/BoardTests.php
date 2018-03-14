@@ -46,7 +46,7 @@ final class BoardTests extends TestCase
      * On board initialisation, the rows and columns must match
      * the defined amount in the Board class
      */
-    public function testOnInitRowsAndColumnsShouldLengthShouldBeAsDefined()
+    public function testOnInitRowsAndColumnsLengthShouldBeAsDefined()
     {
         $this->board->init();
 
@@ -86,7 +86,7 @@ final class BoardTests extends TestCase
      * @param $cells
      * @param $expectedCanvas
      */
-    public function testCanvasDrawing($cells, $expectedCanvas)
+    public function testCanvasDrawingShouldBeAsExpected($cells, $expectedCanvas)
     {
         $this->board->setCells($cells);
         $canvas = $this->board->draw(false);

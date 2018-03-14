@@ -67,7 +67,7 @@ class Game
         $this->getPlayerTwo()->setToken(Board::TOKEN_PLAYER_TWO);
 
         printInfo(
-            "Hey! Welcome to Connect4 game simulation.\n"  .
+            "Hey! Welcome to Connect4 game.\n"  .
                 "It is a turn based game between two players.\n" .
                 "Each player simply needs to enter a column number \n".
                 "where they want to drop their token.\n" .
@@ -79,6 +79,7 @@ class Game
                 sprintf("Player One: Name %s, Token %s\n", $this->playerOne->getName(), $this->playerOne->getToken()) .
                 sprintf("Player Two: Name %s, Token %s\n", $this->playerTwo->getName(), $this->playerTwo->getToken()) .
                 Board::TOKEN_EMPTY_CELL . " indicates an empty cell and a valid drop point.\n" .
+                "Press ctrl+c anytime to exit the game.\n".
                 "Have fun!\n\n"
         );
 
@@ -173,8 +174,8 @@ class Game
             $this->initiateMove();
         } else {
             // There's a valid move so we'll print that information
-            $humanReadableColumn = "C" . ($columnIndex + 1);
-            printInfo( sprintf('%s %s move is in the position %s', $this->getCurrentPlayer()->getName(), $this->getCurrentPlayer()->getToken(), $humanReadableColumn) );
+            $humanReadableColumn = $columnIndex + 1;
+            printInfo( sprintf('%s %s move is in the column %s', $this->getCurrentPlayer()->getName(), $this->getCurrentPlayer()->getToken(), $humanReadableColumn) );
 
             // Set the cells to the board and draw it
             $this->getBoard()->setCells($this->getMovesStore()->getCells());

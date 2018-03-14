@@ -166,7 +166,7 @@ class MovesStore
         $this->setError("");
         if ($columnIndex < 0 || $columnIndex > (Board::COLUMNS - 1))
         {
-            $this->setError('Invalid column, please only choose from '. implode(', ', range(1, Board::COLUMNS)));
+            $this->setError('Invalid column, please only choose from '. implode(', ', $this->getValidColumns()));
             return false;
         }
 

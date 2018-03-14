@@ -56,8 +56,8 @@ class PlayerTests extends TestCase
         self::assertEquals(Board::TOKEN_PLAYER_ONE, $this->player->getToken());
     }
 
-    /** Must identify the player if human and robot */
-    public function testMustBeHumanOrAI()
+    /** Must identify the player if human and ai */
+    public function testMustBeAHumanOrAi()
     {
         $this->player->setHumanStatus(true);
         self::assertTrue($this->player->isHuman());
@@ -69,7 +69,7 @@ class PlayerTests extends TestCase
     /**
      * Must get and set move store
      */
-    public function testMustSetAndGetMovesStore()
+    public function testMustSetAndGetMovesStoreClass()
     {
         $movesStore = $this->container->get('connect4.store.movesStore');
         $this->player->setMovesStore($movesStore);
@@ -77,8 +77,8 @@ class PlayerTests extends TestCase
         self::assertInstanceOf(MovesStore::class, $this->player->getMovesStore());
     }
 
-    /** Must check that the column entered by the user is within range */
-    public function testMustHaveAColumnWithinRange()
+    /** Must have a column entered by the user that is within range */
+    public function testMustHaveSelectedAColumnWithinRange()
     {
         $column = $this->player->enterColumn();
 

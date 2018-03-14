@@ -22,14 +22,12 @@ interface PlayerInterface
     /**
      * Set the players name
      * @param $name
-     * @return mixed
      */
     public function setName($name);
 
     /**
      * Set the token for the player
      * @param $token
-     * @return mixed
      */
     public function setToken($token);
 
@@ -54,7 +52,6 @@ interface PlayerInterface
     /**
      * Set the MovesStore
      * @param MovesStore $movesStore
-     * @return mixed
      */
     public function setMovesStore(MovesStore $movesStore);
 

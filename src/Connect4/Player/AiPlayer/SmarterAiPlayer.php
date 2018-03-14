@@ -21,7 +21,7 @@ class SmarterAiPlayer extends PlayerAbstract implements AiPlayerInterface
     }
 
     /**
-     * Randomly return a number from 1 to the maximum board column
+     * Randomly return a number from valid columns
      * @return int
      */
     public function enterColumn()
@@ -32,6 +32,9 @@ class SmarterAiPlayer extends PlayerAbstract implements AiPlayerInterface
         return $this->smartColumnSelection();
     }
 
+    /**
+     * @inheritdoc
+     */
     public function smartColumnSelection()
     {
         // Select from valid columns
