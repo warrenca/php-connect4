@@ -89,6 +89,9 @@ class Game
 
         // Pass the cells to MovesStore
         $this->getMovesStore()->setCells($this->getBoard()->getCells());
+
+        // Remove any winner
+        $this->setWinner(null);
     }
 
     /**
