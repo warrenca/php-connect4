@@ -40,6 +40,6 @@ class SmarterAiPlayer extends PlayerAbstract implements AiPlayerInterface
         // Select from valid columns
         $validColumns = $this->getMovesStore()->getValidColumns();
 
-        return array_rand($validColumns, 1);
+        return $validColumns[array_rand($validColumns, 1)];
     }
 }

@@ -158,10 +158,19 @@ class Game
 
     /**
      * Ask (human) or get (AI) the players desired move
+     * @param int $tries
      */
-    private function initiateMove()
+    private function initiateMove($tries = 1)
     {
         $columnIndex = $this->getCurrentPlayer()->enterColumn() - 1;
+
+        // This is just a cheap fix for memory exhaustion due to AIs
+        // choosing of column that is already full multiple times.
+        if (!$this->getCurrentPlayer()->isHuman() && $tries > 1000)
+        {
+            printError("Stalemate. There is no winner.");
+            exit;
+        }
 
         // Drop the token to the designated column
         if (!$this->getMovesStore()->dropToken($columnIndex, $this->getCurrentPlayer()->getToken()))
@@ -174,7 +183,7 @@ class Game
             }
 
             // Ask to make another move since there's an error
-            $this->initiateMove();
+            $this->initiateMove($tries+1);
         } else {
             // There's a valid move so we'll print that information
             $humanReadableColumn = $columnIndex + 1;
