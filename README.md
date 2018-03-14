@@ -78,12 +78,12 @@ Please choose a game mode.
 1) Human vs Human
 2) Human vs AI
 3) AI vs AI
- 
-Enter 1, 2 or 3: 2
+Ctrl-C to exit
 
+Enter 1, 2 or 3: 1
 Hey! Welcome to Connect4 game.
 It is a turn-based game between two players.
-Each player simply needs to enter a column number 
+Each player simply needs to enter a column number
 where they want to drop their token.
 To win, they must Connect4 tokens of their own either
 horizontally, vertically or diagonally.
@@ -91,11 +91,12 @@ No one wins when neither player Connect's 4 token.
 --------------------------------------
 The players are...
 Player One: Name Human 👤, Token [X]
-Player Two: Name Robot 🤖, Token [O]
+Player Two: Name Human 2 👤, Token [O]
 [ ] indicates an empty cell and a valid drop point.
+Press Ctrl+C anytime to exit the game.
 Have fun!
 
- 
+
     [ ][ ][ ][ ][ ][ ][ ]
     [ ][ ][ ][ ][ ][ ][ ]
     [ ][ ][ ][ ][ ][ ][ ]
@@ -104,7 +105,8 @@ Have fun!
     [ ][ ][ ][ ][ ][ ][ ]
 C->  1  2  3  4  5  6  7
 
-Human 👤[X]) Enter a column number: 
+Please select from the column numbers 1, 2, 3, 4, 5, 6, 7
+Human 👤[X]) Enter a column number:
 ```
 
 #### How to run tests
