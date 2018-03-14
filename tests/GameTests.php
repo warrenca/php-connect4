@@ -33,7 +33,7 @@ class GameTests extends TestCase
         $builder->addDefinitions('./php-di/config.php');
 
         $this->container = $builder->build();
-        $this->game = $this->container->get('connect4.game.ai.v.ai');
+        $this->game = $this->container->get('connect4.game.ai.vs.ai');
     }
 
     /** Must get the MovesStore instance */
