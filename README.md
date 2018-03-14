@@ -25,7 +25,7 @@ unit testing. Prefer minimal dependencies. ✅
 
 - This project is well tested using `PHPUnit` testing framework.
 - This project uses dependency injection using `PHP Interface` and dependency injection container using the package `php-di`.
-- It also demonstrates the use of `Abstract Class` that is inherited by the `Players Classes`.
+- This project also demonstrates the use of `Abstract Class` that is inherited by the `Players Classes`.
 - As a data storage, it uses the `(model) MovesStore class`  to handle the saving and validating player movements.
 - Moreover, the `(view) Board class`  act as the manager to display the game movements visually.
 - Finally, the `(controller) Game class`  directs the game.
@@ -166,7 +166,8 @@ OK (33 tests, 111 assertions)
 #### Writing tests
 
 This project is using `phpunit` testing framework.
-Add new tests in `./tests` directory and in PHPUnit test configuration file `phpunit.xml`.
+The PHPUnit test configuration file is `phpunit.xml`.
+Add new tests in `./tests` directory.
 
 ### Who do I talk to? ###
 
