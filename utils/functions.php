@@ -19,7 +19,7 @@ function dd($var)
  */
 function printSuccess($message)
 {
-    echo "\033[42m$message \033[0m\n";
+    echo "\033[42mSuccess: $message \033[0m\n";
 }
 
 /**
@@ -29,7 +29,7 @@ function printSuccess($message)
  */
 function printError($error)
 {
-    echo "\033[31m$error \033[0m\n";
+    echo "\033[31mError: $error \033[0m\n";
 }
 
 /**
@@ -39,5 +39,5 @@ function printError($error)
  */
 function printInfo($info)
 {
-    echo "\033[33m$info \033[0m\n";
+    echo "\033[33mInfo: $info \033[0m\n";
 }

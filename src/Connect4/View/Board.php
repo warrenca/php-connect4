@@ -40,10 +40,8 @@ class Board
     {
         $cells = [];
 
-        for ($row = 0; $row < self::ROWS; $row++)
-        {
-            for ($column = 0; $column < self::COLUMNS; $column++)
-            {
+        for ($row = 0; $row < self::ROWS; $row++) {
+            for ($column = 0; $column < self::COLUMNS; $column++) {
                 $cells[$row][$column] = self::TOKEN_EMPTY_CELL;
             }
         }
@@ -70,11 +68,9 @@ class Board
         $canvas = "";
 
         // Looping through the cells and display it
-        for ($rowIndex = 0; $rowIndex < self::ROWS; $rowIndex++)
-        {
+        for ($rowIndex = 0; $rowIndex < self::ROWS; $rowIndex++) {
             $canvas .= "    ";
-            for ($columnIndex = 0; $columnIndex < count($this->cells[$rowIndex]); $columnIndex++)
-            {
+            for ($columnIndex = 0; $columnIndex < count($this->cells[$rowIndex]); $columnIndex++) {
                 $canvas .= $cells[$rowIndex][$columnIndex];
             }
             $canvas .= "\n";
@@ -82,8 +78,7 @@ class Board
 
         // Put a label under the board
         $canvas .= "C->";
-        for ($columnIndex = 0; $columnIndex < self::COLUMNS; $columnIndex++)
-        {
+        for ($columnIndex = 0; $columnIndex < self::COLUMNS; $columnIndex++) {
             $canvas .= "  " . ($columnIndex + 1);
         }
 
