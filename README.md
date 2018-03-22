@@ -47,7 +47,7 @@ unit testing. Prefer minimal dependencies. ✅
 
 * This project is a an interactive Connect4 game. The possible match ups are: Human vs Human, Human vs AI and AI vs AI.
 * v1.0.0
-* [Source Code](https://bitbucket.org/warrenca/connect4/)
+* Source Code [Bitbucket](https://bitbucket.org/warrenca/connect4/), [Github](https://github.com/warrenca/php-connect4)
 
 ### How do I get set up? ###
 
