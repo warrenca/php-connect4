@@ -36,8 +36,10 @@ function printError($error)
  * Show info message in yellow!
  *
  * @param $info
+ * @param bool $withNewLine
  */
-function printInfo($info)
+function printInfo($info, $withNewLine = true)
 {
-    echo "\033[33mInfo: $info \033[0m\n";
+    $newLine = $withNewLine ? "\n" : "";
+    echo "\033[33mInfo: $info \033[0m" . $newLine;
 }

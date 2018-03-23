@@ -2,6 +2,13 @@
 
 namespace Connect4;
 
+// Make a warning as an exception so it can be catched
+// https://airbrake.io/blog/php-exception-handling/errorexception
+error_reporting(E_WARNING);
+set_error_handler(function($severity, $message, $file, $line){
+    throw new \ErrorException($message, 0, $severity, $file, $line);
+});
+
 
 use Connect4\Player\PlayerInterface;
 use Connect4\Store\MovesStore;
@@ -154,7 +161,15 @@ class Game
      */
     private function initiateMove($tries = 1)
     {
-        $columnIndex = $this->getCurrentPlayer()->enterColumn() - 1;
+        try {
+            $columnIndex = $this->getCurrentPlayer()->enterColumn() - 1;
+        } catch (\Exception $e)
+        {
+            $validColumns = $this->getMovesStore()->getValidColumns();
+            $columnIndex = $validColumns[array_rand($validColumns, 1)];
+            echo "\n";
+            printError("--- Time elapsed. Your move was autoselected --- ");
+        }
 
         // This is just a cheap fix for memory exhaustion due to AIs
         // choosing of column that is already full multiple times.
