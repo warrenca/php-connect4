@@ -14,13 +14,19 @@ class Board
     use CellsTrait;
 
     /** A representation of an empty cell */
-    const TOKEN_EMPTY_CELL = '[ ]';
+    const TOKEN_EMPTY_CELL = "[ ]";
 
     /** A representation of player one's occupied cell */
-    const TOKEN_PLAYER_ONE = '[X]';
+    const TOKEN_PLAYER_ONE = "\033[0;34m[X]\033[0m";
 
     /** A representation of player two's occupied cell */
-    const TOKEN_PLAYER_TWO = '[O]';
+    const TOKEN_PLAYER_TWO = "\033[1;31m[O]\033[0m";
+
+    /** A representation of player winning cells in green background */
+    const WINNING_TOKEN = [
+        self::TOKEN_PLAYER_ONE => "\033[42m[X]\033[0m",
+        self::TOKEN_PLAYER_TWO => "\033[42m[O]\033[0m"
+    ];
 
     /** The number of board row */
     const ROWS = 6;

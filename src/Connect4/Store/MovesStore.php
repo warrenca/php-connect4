@@ -4,6 +4,7 @@ namespace Connect4\Store;
 
 
 use Connect4\CellsTrait;
+use Connect4\Game;
 use Connect4\Player\PlayerInterface;
 use Connect4\View\Board;
 
@@ -186,6 +187,13 @@ class MovesStore
                     && $cells[$rowIndex][$columnIndex + 2] === $token
                     && $cells[$rowIndex][$columnIndex + 3] === $token
                 ) {
+                    // Set the players token to a winning token
+                    $cells[$rowIndex][$columnIndex] = Board::WINNING_TOKEN[$token];
+                    $cells[$rowIndex][$columnIndex + 1] = Board::WINNING_TOKEN[$token];
+                    $cells[$rowIndex][$columnIndex + 2] = Board::WINNING_TOKEN[$token];
+                    $cells[$rowIndex][$columnIndex + 3] = Board::WINNING_TOKEN[$token];
+                    $this->setCells($cells);
+
                     return true;
                 }
             }
@@ -216,6 +224,13 @@ class MovesStore
                     && $cells[$rowIndex + 2][$columnIndex] === $token
                     && $cells[$rowIndex + 3][$columnIndex] === $token
                 ) {
+                    // Set the players token to a winning token
+                    $cells[$rowIndex][$columnIndex] = Board::WINNING_TOKEN[$token];
+                    $cells[$rowIndex + 1][$columnIndex] = Board::WINNING_TOKEN[$token];
+                    $cells[$rowIndex + 2][$columnIndex] = Board::WINNING_TOKEN[$token];
+                    $cells[$rowIndex + 3][$columnIndex] = Board::WINNING_TOKEN[$token];
+                    $this->setCells($cells);
+
                     return true;
                 }
             }
@@ -248,6 +263,13 @@ class MovesStore
                     && $cells[$rowIndex + 2][$columnIndex - 2] === $token
                     && $cells[$rowIndex + 3][$columnIndex - 3] === $token
                 ) {
+                    // Set the players token to a winning token
+                    $cells[$rowIndex][$columnIndex] = Board::WINNING_TOKEN[$token];
+                    $cells[$rowIndex + 1][$columnIndex - 1] = Board::WINNING_TOKEN[$token];
+                    $cells[$rowIndex + 2][$columnIndex - 2] = Board::WINNING_TOKEN[$token];
+                    $cells[$rowIndex + 3][$columnIndex - 3] = Board::WINNING_TOKEN[$token];
+                    $this->setCells($cells);
+
                     return true;
                 }
             }
@@ -281,6 +303,13 @@ class MovesStore
                     && $cells[$rowIndex + 2][$columnIndex + 2] === $token
                     && $cells[$rowIndex + 3][$columnIndex + 3] === $token
                 ) {
+                    // Set the players token to a winning token
+                    $cells[$rowIndex][$columnIndex] = Board::WINNING_TOKEN[$token];
+                    $cells[$rowIndex + 1][$columnIndex + 1] = Board::WINNING_TOKEN[$token];
+                    $cells[$rowIndex + 2][$columnIndex + 2] = Board::WINNING_TOKEN[$token];
+                    $cells[$rowIndex + 3][$columnIndex + 3] = Board::WINNING_TOKEN[$token];
+                    $this->setCells($cells);
+
                     return true;
                 }
             }

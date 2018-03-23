@@ -120,11 +120,17 @@ class Game
 
             $this->initiateMove();
 
-            if ($this->getMovesStore()->checkWinningPatterns($this->getCurrentPlayer())) {
+            $hasAWinner = $this->getMovesStore()->checkWinningPatterns($this->getCurrentPlayer());
+            $this->board->setCells($this->getMovesStore()->getCells());
+
+            if ($hasAWinner) {
                 $this->setWinner($this->getCurrentPlayer());
+                $this->board->draw();
                 // End the game since there's already a winner
                 break;
             }
+
+            $this->board->draw();
 
             $turn++;
         }
@@ -192,10 +198,6 @@ class Game
             // There's a valid move so we'll print that information
             $humanReadableColumn = $columnIndex + 1;
             printInfo(sprintf('%s %s move is in the column %s', $this->getCurrentPlayer()->getName(), $this->getCurrentPlayer()->getToken(), $humanReadableColumn));
-
-            // Set the cells to the board and draw it
-            $this->getBoard()->setCells($this->getMovesStore()->getCells());
-            $this->getBoard()->draw();
         }
     }
 
