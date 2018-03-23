@@ -1,6 +1,7 @@
 <?php
 
 namespace Connect4\View;
+use Connect4\CellsTrait;
 
 /**
  * Class Board
@@ -10,6 +11,8 @@ namespace Connect4\View;
  */
 class Board
 {
+    use CellsTrait;
+
     /** A representation of an empty cell */
     const TOKEN_EMPTY_CELL = '[ ]';
 
@@ -24,12 +27,6 @@ class Board
 
     /** The number of board column */
     const COLUMNS = 7;
-
-    /**
-     * Contains all the information about the token positions in the board
-     * @var array
-     */
-    private $cells = [];
 
     /**
      * Initialise the board with empty cells
@@ -47,14 +44,6 @@ class Board
         }
 
         $this->setCells($cells);
-    }
-
-    /**
-     * @param $cells
-     */
-    public function setCells($cells)
-    {
-        $this->cells = $cells;
     }
 
     /**
@@ -89,13 +78,5 @@ class Board
         } else {
             return $canvas;
         }
-    }
-
-    /**
-     * @return array
-     */
-    public function getCells()
-    {
-        return $this->cells;
     }
 }

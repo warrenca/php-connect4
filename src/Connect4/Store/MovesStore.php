@@ -3,6 +3,7 @@
 namespace Connect4\Store;
 
 
+use Connect4\CellsTrait;
 use Connect4\Player\PlayerInterface;
 use Connect4\View\Board;
 
@@ -14,33 +15,13 @@ use Connect4\View\Board;
  */
 class MovesStore
 {
+    use CellsTrait;
+
     /** The number of tokens connected to win the game */
     const NUMBER_OF_TOKENS_TO_WIN = 4;
 
-    /**
-     * Contains all the information about the token positions in the board
-     * @var array
-     */
-    private $cells = [];
-
     /** @var string An error message */
     private $error = "";
-
-    /**
-     * @return array
-     */
-    public function getCells()
-    {
-        return $this->cells;
-    }
-
-    /**
-     * @param array $cells
-     */
-    public function setCells($cells)
-    {
-        $this->cells = $cells;
-    }
 
     /**
      * Get the error message
