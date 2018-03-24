@@ -20,6 +20,9 @@ computer player in the future, or even choose between different computer player
 strategies, or have two human players, or two computer players ✅
 12. There may be opportunity to use patterns like MVC, dependency injection. Expect to see
 unit testing. Prefer minimal dependencies. ✅
+13. A 15 second timer for the player to make a move. ✅
+14. Colored players token. ✅
+15. Show the winning pattern in the board. ✅
 
 ### Concepts ###
 
@@ -109,6 +112,8 @@ Please select from the column numbers 1, 2, 3, 4, 5, 6, 7
 Human 👤[X]) Enter a column number:
 ```
 
+![Connect4 Console Game](./connect4-console-game.jpg)
+
 #### How to run tests
 
 Run `composer test`
@@ -142,7 +147,35 @@ Connect4\Tests\MovesStoreTests
  ✔ Must return true when dropping to correct column index data set #0
  ✔ Must return false if column is not in range data set #0
  ✔ Must get the correct row index data set #0
- ✔ Must return true for winning patters data set #0
+ ✔ Must return true for horizontal winning patterns data set #0
+ ✔ Must return true for horizontal winning patterns data set #1
+ ✔ Must return true for horizontal winning patterns data set #2
+ ✔ Must return true for horizontal winning patterns data set #3
+ ✔ Must return true for horizontal winning patterns data set #4
+ ✔ Must return true for horizontal winning patterns data set #5
+ ✔ Must return true for horizontal winning patterns data set #6
+ ✔ Must return true for vertical winning patterns data set #0
+ ✔ Must return true for vertical winning patterns data set #1
+ ✔ Must return true for vertical winning patterns data set #2
+ ✔ Must return true for vertical winning patterns data set #3
+ ✔ Must return true for vertical winning patterns data set #4
+ ✔ Must return true for vertical winning patterns data set #5
+ ✔ Must return true for vertical winning patterns data set #6
+ ✔ Must return true for vertical winning patterns data set #7
+ ✔ Must return true for forward slash winning patterns data set #0
+ ✔ Must return true for forward slash winning patterns data set #1
+ ✔ Must return true for forward slash winning patterns data set #2
+ ✔ Must return true for forward slash winning patterns data set #3
+ ✔ Must return true for forward slash winning patterns data set #4
+ ✔ Must return true for forward slash winning patterns data set #5
+ ✔ Must return true for forward slash winning patterns data set #6
+ ✔ Must return true for back slash winning patterns data set #0
+ ✔ Must return true for back slash winning patterns data set #1
+ ✔ Must return true for back slash winning patterns data set #2
+ ✔ Must return true for back slash winning patterns data set #3
+ ✔ Must return true for back slash winning patterns data set #4
+ ✔ Must return true for back slash winning patterns data set #5
+ ✔ Must return true for back slash winning patterns data set #6
  ✔ Must return false when theres no winner in the pattern data set #0
 
 Connect4\Tests\GameTests
@@ -158,9 +191,9 @@ Connect4\Tests\GameTests
  ✔ Must return a winner
  ✔ Must return no winner
 
-Time: 2.04 seconds, Memory: 4.00MB
+Time: 5.3 seconds, Memory: 6.00MB
 
-OK (33 tests, 111 assertions)
+OK (61 tests, 161 assertions)
 ```
 
 ### Contribution guidelines ###
