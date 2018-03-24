@@ -24,8 +24,8 @@ class Board
 
     /** A representation of player winning cells in green background */
     const WINNING_TOKEN = [
-        self::TOKEN_PLAYER_ONE => "\033[42m[X]\033[0m",
-        self::TOKEN_PLAYER_TWO => "\033[42m[O]\033[0m"
+        self::TOKEN_PLAYER_ONE => "\033[44m[X]\033[0m",
+        self::TOKEN_PLAYER_TWO => "\033[41m[O]\033[0m"
     ];
 
     /** The number of board row */

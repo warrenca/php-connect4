@@ -4,6 +4,7 @@ namespace Connect4\Tests;
 
 
 use Connect4\Player\HumanPlayer;
+use Connect4\Player\PlayerAbstract;
 use Connect4\Store\MovesStore;
 use Connect4\View\Board;
 use DI\Container;
@@ -179,27 +180,36 @@ class MovesStoreTests extends TestCase
      */
     public function testMustReturnTrueForWinningPatters($horizontal, $vertical, $forwardSlash, $backSlash)
     {
+        /** @var PlayerAbstract $playerOne */
         $playerOne = $this->container->get('connect4.player.human');
         $playerOne->setToken(Board::TOKEN_PLAYER_ONE);
 
         // Return true for horizontal winning patterns
         $this->movesStore->setCells($horizontal);
-        self::assertTrue($this->movesStore->checkWinningPatterns($playerOne));
         self::assertTrue($this->movesStore->checkHorizontalPattern(Board::TOKEN_PLAYER_ONE));
+
+        $this->movesStore->setCells($horizontal);
+        self::assertTrue($this->movesStore->checkWinningPatterns($playerOne));
 
         // Return true for vertical winning patterns
         $this->movesStore->setCells($vertical);
         self::assertTrue($this->movesStore->checkVerticalPattern(Board::TOKEN_PLAYER_ONE));
+
+        $this->movesStore->setCells($vertical);
         self::assertTrue($this->movesStore->checkWinningPatterns($playerOne));
 
         // Return true for forward slash winning patterns
         $this->movesStore->setCells($forwardSlash);
         self::assertTrue($this->movesStore->checkForwardSlashPattern(Board::TOKEN_PLAYER_ONE));
+
+        $this->movesStore->setCells($forwardSlash);
         self::assertTrue($this->movesStore->checkWinningPatterns($playerOne));
 
         // Return true for back slash winning patterns
         $this->movesStore->setCells($backSlash);
         self::assertTrue($this->movesStore->checkBackSlashPattern(Board::TOKEN_PLAYER_ONE));
+
+        $this->movesStore->setCells($backSlash);
         self::assertTrue($this->movesStore->checkWinningPatterns($playerOne));
     }
 

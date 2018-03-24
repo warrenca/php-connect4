@@ -38,8 +38,8 @@ final class BoardTests extends TestCase
         self::assertEquals(7, Board::COLUMNS);
         self::assertEquals(6, Board::ROWS);
         self::assertEquals('[ ]', Board::TOKEN_EMPTY_CELL);
-        self::assertEquals('[X]', Board::TOKEN_PLAYER_ONE);
-        self::assertEquals('[O]', Board::TOKEN_PLAYER_TWO);
+        self::assertEquals("\033[0;34m[X]\033[0m", Board::TOKEN_PLAYER_ONE);
+        self::assertEquals("\033[1;31m[O]\033[0m", Board::TOKEN_PLAYER_TWO);
     }
 
     /**
