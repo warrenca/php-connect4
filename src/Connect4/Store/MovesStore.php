@@ -180,7 +180,7 @@ class MovesStore
         // The highest index where winning is possible
         $limit = Board::COLUMNS - (self::NUMBER_OF_TOKENS_TO_WIN - 1);
 
-        for ($rowIndex = Board::ROWS - 1; $rowIndex > 0; $rowIndex--) {
+        for ($rowIndex = Board::ROWS - 1; $rowIndex >= 0; $rowIndex--) {
             for ($columnIndex = 0; $columnIndex < $limit; $columnIndex++) {
                 if ($cells[$rowIndex][$columnIndex] === $token
                     && $cells[$rowIndex][$columnIndex + 1] === $token
