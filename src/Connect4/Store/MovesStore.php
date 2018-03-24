@@ -3,6 +3,8 @@
 namespace Connect4\Store;
 
 
+use Connect4\CellsTrait;
+use Connect4\Game;
 use Connect4\Player\PlayerInterface;
 use Connect4\View\Board;
 
@@ -14,33 +16,13 @@ use Connect4\View\Board;
  */
 class MovesStore
 {
+    use CellsTrait;
+
     /** The number of tokens connected to win the game */
     const NUMBER_OF_TOKENS_TO_WIN = 4;
 
-    /**
-     * Contains all the information about the token positions in the board
-     * @var array
-     */
-    private $cells = [];
-
     /** @var string An error message */
     private $error = "";
-
-    /**
-     * @return array
-     */
-    public function getCells()
-    {
-        return $this->cells;
-    }
-
-    /**
-     * @param array $cells
-     */
-    public function setCells($cells)
-    {
-        $this->cells = $cells;
-    }
 
     /**
      * Get the error message
@@ -71,15 +53,13 @@ class MovesStore
      */
     public function dropToken($columnIndex, $token)
     {
-        if (!$this->isColumnInRange($columnIndex))
-        {
+        if (!$this->isColumnInRange($columnIndex)) {
             return false;
         }
 
         $rowIndex = $this->getNextAvailableRowIndex($columnIndex);
 
-        if ($this->isColumnFull($rowIndex, $columnIndex))
-        {
+        if ($this->isColumnFull($rowIndex, $columnIndex)) {
             return false;
         }
 
@@ -103,8 +83,7 @@ class MovesStore
         // Empty up the error before the validations
         $this->setError("");
 
-        if ($rowIndex < 0)
-        {
+        if ($rowIndex < 0) {
             $this->setError(sprintf('Column %d is already full, please choose a different column.', ($columnIndex + 1)));
             return true;
         }
@@ -123,10 +102,8 @@ class MovesStore
     {
         $cells = $this->getCells();
 
-        for ($rowIndex = (Board::ROWS - 1); $rowIndex >= 0; $rowIndex--)
-        {
-            if ($cells[$rowIndex][$columnIndex] === Board::TOKEN_EMPTY_CELL)
-            {
+        for ($rowIndex = (Board::ROWS - 1); $rowIndex >= 0; $rowIndex--) {
+            if ($cells[$rowIndex][$columnIndex] === Board::TOKEN_EMPTY_CELL) {
                 return $rowIndex;
             }
         }
@@ -144,10 +121,8 @@ class MovesStore
         $validColumns = [];
 
         // Loop through all the columns and check which ones are valid
-        for ($columnIndex = 0; $columnIndex < Board::COLUMNS; $columnIndex++)
-        {
-            if ($this->getNextAvailableRowIndex($columnIndex) >=0)
-            {
+        for ($columnIndex = 0; $columnIndex < Board::COLUMNS; $columnIndex++) {
+            if ($this->getNextAvailableRowIndex($columnIndex) >= 0) {
                 $validColumns[] = $columnIndex + 1; // + 1 to be human readable
             }
         }
@@ -164,9 +139,8 @@ class MovesStore
     public function isColumnInRange($columnIndex)
     {
         $this->setError("");
-        if ($columnIndex < 0 || $columnIndex > (Board::COLUMNS - 1))
-        {
-            $this->setError('Invalid column, please only choose from '. implode(', ', $this->getValidColumns()));
+        if ($columnIndex < 0 || $columnIndex > (Board::COLUMNS - 1)) {
+            $this->setError('Invalid column, please only choose from ' . implode(', ', $this->getValidColumns()));
             return false;
         }
 
@@ -204,18 +178,22 @@ class MovesStore
         $cells = $this->getCells();
 
         // The highest index where winning is possible
-        $limit = self::NUMBER_OF_TOKENS_TO_WIN -1;
+        $limit = Board::COLUMNS - (self::NUMBER_OF_TOKENS_TO_WIN - 1);
 
-        for ($rowIndex = (Board::ROWS - 1); $rowIndex > 0; $rowIndex--)
-        {
-            for ($columnIndex = 0; $columnIndex < $limit; $columnIndex++)
-            {
+        for ($rowIndex = Board::ROWS - 1; $rowIndex >= 0; $rowIndex--) {
+            for ($columnIndex = 0; $columnIndex < $limit; $columnIndex++) {
                 if ($cells[$rowIndex][$columnIndex] === $token
-                    && $cells[$rowIndex][$columnIndex+1] === $token
-                    && $cells[$rowIndex][$columnIndex+2] === $token
-                    && $cells[$rowIndex][$columnIndex+3] === $token
-                )
-                {
+                    && $cells[$rowIndex][$columnIndex + 1] === $token
+                    && $cells[$rowIndex][$columnIndex + 2] === $token
+                    && $cells[$rowIndex][$columnIndex + 3] === $token
+                ) {
+                    // Set the players token to a winning token
+                    $cells[$rowIndex][$columnIndex] = Board::WINNING_TOKEN[$token];
+                    $cells[$rowIndex][$columnIndex + 1] = Board::WINNING_TOKEN[$token];
+                    $cells[$rowIndex][$columnIndex + 2] = Board::WINNING_TOKEN[$token];
+                    $cells[$rowIndex][$columnIndex + 3] = Board::WINNING_TOKEN[$token];
+                    $this->setCells($cells);
+
                     return true;
                 }
             }
@@ -239,15 +217,20 @@ class MovesStore
         // The highest index where a winning pattern is possible
         $limit = (self::NUMBER_OF_TOKENS_TO_WIN - 1);
 
-        for ($rowIndex = 0; $rowIndex < $limit; $rowIndex++)
-        {
-            for ($columnIndex = 0; $columnIndex < Board::COLUMNS; $columnIndex++)
-            {
+        for ($rowIndex = 0; $rowIndex < $limit; $rowIndex++) {
+            for ($columnIndex = 0; $columnIndex < Board::COLUMNS; $columnIndex++) {
                 if ($cells[$rowIndex][$columnIndex] === $token
                     && $cells[$rowIndex + 1][$columnIndex] === $token
                     && $cells[$rowIndex + 2][$columnIndex] === $token
                     && $cells[$rowIndex + 3][$columnIndex] === $token
                 ) {
+                    // Set the players token to a winning token
+                    $cells[$rowIndex][$columnIndex] = Board::WINNING_TOKEN[$token];
+                    $cells[$rowIndex + 1][$columnIndex] = Board::WINNING_TOKEN[$token];
+                    $cells[$rowIndex + 2][$columnIndex] = Board::WINNING_TOKEN[$token];
+                    $cells[$rowIndex + 3][$columnIndex] = Board::WINNING_TOKEN[$token];
+                    $this->setCells($cells);
+
                     return true;
                 }
             }
@@ -273,16 +256,20 @@ class MovesStore
 
         // Row limit index where it's possible to win
         $limit = self::NUMBER_OF_TOKENS_TO_WIN - 1;
-        for ($rowIndex = 0; $rowIndex < $limit; $rowIndex++)
-        {
-            for ($columnIndex = $start; $columnIndex < Board::COLUMNS; $columnIndex++)
-            {
+        for ($rowIndex = 0; $rowIndex < $limit; $rowIndex++) {
+            for ($columnIndex = $start; $columnIndex < Board::COLUMNS; $columnIndex++) {
                 if ($cells[$rowIndex][$columnIndex] === $token
-                    && $cells[$rowIndex+1][$columnIndex-1] === $token
-                    && $cells[$rowIndex+2][$columnIndex-2] === $token
-                    && $cells[$rowIndex+3][$columnIndex-3] === $token
-                    )
-                {
+                    && $cells[$rowIndex + 1][$columnIndex - 1] === $token
+                    && $cells[$rowIndex + 2][$columnIndex - 2] === $token
+                    && $cells[$rowIndex + 3][$columnIndex - 3] === $token
+                ) {
+                    // Set the players token to a winning token
+                    $cells[$rowIndex][$columnIndex] = Board::WINNING_TOKEN[$token];
+                    $cells[$rowIndex + 1][$columnIndex - 1] = Board::WINNING_TOKEN[$token];
+                    $cells[$rowIndex + 2][$columnIndex - 2] = Board::WINNING_TOKEN[$token];
+                    $cells[$rowIndex + 3][$columnIndex - 3] = Board::WINNING_TOKEN[$token];
+                    $this->setCells($cells);
+
                     return true;
                 }
             }
@@ -309,16 +296,20 @@ class MovesStore
         // Row end index where it's possible to win
         $rowEnd = (Board::ROWS - (self::NUMBER_OF_TOKENS_TO_WIN - 1));
 
-        for ($rowIndex = 0; $rowIndex < $rowEnd; $rowIndex++)
-        {
-            for ($columnIndex = 0; $columnIndex < $columnEnd; $columnIndex++)
-            {
+        for ($rowIndex = 0; $rowIndex < $rowEnd; $rowIndex++) {
+            for ($columnIndex = 0; $columnIndex < $columnEnd; $columnIndex++) {
                 if ($cells[$rowIndex][$columnIndex] === $token
-                    && $cells[$rowIndex+1][$columnIndex+1] === $token
-                    && $cells[$rowIndex+2][$columnIndex+2] === $token
-                    && $cells[$rowIndex+3][$columnIndex+3] === $token
-                )
-                {
+                    && $cells[$rowIndex + 1][$columnIndex + 1] === $token
+                    && $cells[$rowIndex + 2][$columnIndex + 2] === $token
+                    && $cells[$rowIndex + 3][$columnIndex + 3] === $token
+                ) {
+                    // Set the players token to a winning token
+                    $cells[$rowIndex][$columnIndex] = Board::WINNING_TOKEN[$token];
+                    $cells[$rowIndex + 1][$columnIndex + 1] = Board::WINNING_TOKEN[$token];
+                    $cells[$rowIndex + 2][$columnIndex + 2] = Board::WINNING_TOKEN[$token];
+                    $cells[$rowIndex + 3][$columnIndex + 3] = Board::WINNING_TOKEN[$token];
+                    $this->setCells($cells);
+
                     return true;
                 }
             }

@@ -1,6 +1,7 @@
 <?php
 
 namespace Connect4\View;
+use Connect4\CellsTrait;
 
 /**
  * Class Board
@@ -10,26 +11,28 @@ namespace Connect4\View;
  */
 class Board
 {
+    use CellsTrait;
+
     /** A representation of an empty cell */
-    const TOKEN_EMPTY_CELL = '[ ]';
+    const TOKEN_EMPTY_CELL = "[ ]";
 
     /** A representation of player one's occupied cell */
-    const TOKEN_PLAYER_ONE = '[X]';
+    const TOKEN_PLAYER_ONE = "\033[0;34m[X]\033[0m";
 
     /** A representation of player two's occupied cell */
-    const TOKEN_PLAYER_TWO = '[O]';
+    const TOKEN_PLAYER_TWO = "\033[1;31m[O]\033[0m";
+
+    /** A representation of player winning cells in green background */
+    const WINNING_TOKEN = [
+        self::TOKEN_PLAYER_ONE => "\033[44m[X]\033[0m",
+        self::TOKEN_PLAYER_TWO => "\033[41m[O]\033[0m"
+    ];
 
     /** The number of board row */
     const ROWS = 6;
 
     /** The number of board column */
     const COLUMNS = 7;
-
-    /**
-     * Contains all the information about the token positions in the board
-     * @var array
-     */
-    private $cells = [];
 
     /**
      * Initialise the board with empty cells
@@ -40,23 +43,13 @@ class Board
     {
         $cells = [];
 
-        for ($row = 0; $row < self::ROWS; $row++)
-        {
-            for ($column = 0; $column < self::COLUMNS; $column++)
-            {
+        for ($row = 0; $row < self::ROWS; $row++) {
+            for ($column = 0; $column < self::COLUMNS; $column++) {
                 $cells[$row][$column] = self::TOKEN_EMPTY_CELL;
             }
         }
 
         $this->setCells($cells);
-    }
-
-    /**
-     * @param $cells
-     */
-    public function setCells($cells)
-    {
-        $this->cells = $cells;
     }
 
     /**
@@ -70,11 +63,9 @@ class Board
         $canvas = "";
 
         // Looping through the cells and display it
-        for ($rowIndex = 0; $rowIndex < self::ROWS; $rowIndex++)
-        {
+        for ($rowIndex = 0; $rowIndex < self::ROWS; $rowIndex++) {
             $canvas .= "    ";
-            for ($columnIndex = 0; $columnIndex < count($this->cells[$rowIndex]); $columnIndex++)
-            {
+            for ($columnIndex = 0; $columnIndex < count($this->cells[$rowIndex]); $columnIndex++) {
                 $canvas .= $cells[$rowIndex][$columnIndex];
             }
             $canvas .= "\n";
@@ -82,8 +73,7 @@ class Board
 
         // Put a label under the board
         $canvas .= "C->";
-        for ($columnIndex = 0; $columnIndex < self::COLUMNS; $columnIndex++)
-        {
+        for ($columnIndex = 0; $columnIndex < self::COLUMNS; $columnIndex++) {
             $canvas .= "  " . ($columnIndex + 1);
         }
 
@@ -94,13 +84,5 @@ class Board
         } else {
             return $canvas;
         }
-    }
-
-    /**
-     * @return array
-     */
-    public function getCells()
-    {
-        return $this->cells;
     }
 }

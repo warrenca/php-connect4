@@ -2,6 +2,13 @@
 
 namespace Connect4;
 
+// Make a warning as an exception so it can be catched
+// https://airbrake.io/blog/php-exception-handling/errorexception
+error_reporting(E_WARNING);
+set_error_handler(function($severity, $message, $file, $line){
+    throw new \ErrorException($message, 0, $severity, $file, $line);
+});
+
 
 use Connect4\Player\PlayerInterface;
 use Connect4\Store\MovesStore;
@@ -44,15 +51,11 @@ class Game
     /**
      * Game constructor.
      * @param Board $board
-     * @param PlayerInterface $playerOne
-     * @param PlayerInterface $playerTwo
      * @param MovesStore $movesStore
      */
-    public function __construct(Board $board, PlayerInterface $playerOne, PlayerInterface $playerTwo, MovesStore $movesStore)
+    public function __construct(Board $board, MovesStore $movesStore)
     {
         $this->setBoard($board);
-        $this->setPlayerOne($playerOne);
-        $this->setPlayerTwo($playerTwo);
         $this->setMovesStore($movesStore);
         $this->setMaximumTurns(Board::COLUMNS * Board::ROWS);
     }
@@ -67,20 +70,20 @@ class Game
         $this->getPlayerTwo()->setToken(Board::TOKEN_PLAYER_TWO);
 
         printInfo(
-            "Hey! Welcome to Connect4 game.\n"  .
-                "It is a turn-based game between two players.\n" .
-                "Each player simply needs to enter a column number \n".
-                "where they want to drop their token.\n" .
-                "To win, they must Connect4 tokens of their own either\n" .
-                "horizontally, vertically or diagonally.\n" .
-                "No one wins when neither player Connect's 4 token.\n" .
-                "--------------------------------------\n" .
-                "The players are...\n" .
-                sprintf("Player One: Name %s, Token %s\n", $this->playerOne->getName(), $this->playerOne->getToken()) .
-                sprintf("Player Two: Name %s, Token %s\n", $this->playerTwo->getName(), $this->playerTwo->getToken()) .
-                Board::TOKEN_EMPTY_CELL . " indicates an empty cell and a valid drop point.\n" .
-                "Press Ctrl+C anytime to exit the game.\n".
-                "Have fun!\n\n"
+            "Hey! Welcome to Connect4 game.\n" .
+            "It is a turn-based game between two players.\n" .
+            "Each player simply needs to enter a column number \n" .
+            "where they want to drop their token.\n" .
+            "To win, they must Connect4 tokens of their own either\n" .
+            "horizontally, vertically or diagonally.\n" .
+            "No one wins when neither player Connect's 4 token.\n" .
+            "--------------------------------------\n" .
+            "The players are...\n" .
+            sprintf("Player One: Name %s, Token %s\n", $this->playerOne->getName(), $this->playerOne->getToken()) .
+            sprintf("Player Two: Name %s, Token %s\n", $this->playerTwo->getName(), $this->playerTwo->getToken()) .
+            Board::TOKEN_EMPTY_CELL . " indicates an empty cell and a valid drop point.\n" .
+            "Press Ctrl+C anytime to exit the game.\n" .
+            "Have fun!\n\n"
         );
 
         // Initialise the board and print it on the screen
@@ -102,10 +105,8 @@ class Game
         $turn = 0;
 
         // While there's no winner or the maximum turns hasn't been reached
-        while (!$this->getWinner() && $turn < $this->getMaximumTurns())
-        {
-            if ($turn % 2)
-            {
+        while (!$this->getWinner() && $turn < $this->getMaximumTurns()) {
+            if ($turn % 2) {
                 // If mod is 1 or true
                 // It's Player 2's turn
                 $this->setCurrentPlayer($this->getPlayerTwo());
@@ -119,18 +120,22 @@ class Game
 
             $this->initiateMove();
 
-            if ($this->getMovesStore()->checkWinningPatterns($this->getCurrentPlayer()))
-            {
+            $hasAWinner = $this->getMovesStore()->checkWinningPatterns($this->getCurrentPlayer());
+            $this->board->setCells($this->getMovesStore()->getCells());
+
+            if ($hasAWinner) {
                 $this->setWinner($this->getCurrentPlayer());
+                $this->board->draw();
                 // End the game since there's already a winner
                 break;
             }
 
+            $this->board->draw();
+
             $turn++;
         }
 
-        if ($this->getWinner())
-        {
+        if ($this->getWinner()) {
             // There's a winner!
             printSuccess("Congratulations! The winner is " . $this->getWinner()->getName());
         } else {
@@ -162,36 +167,37 @@ class Game
      */
     private function initiateMove($tries = 1)
     {
-        $columnIndex = $this->getCurrentPlayer()->enterColumn() - 1;
+        try {
+            $columnIndex = $this->getCurrentPlayer()->enterColumn() - 1;
+        } catch (\Exception $e)
+        {
+            $validColumns = $this->getMovesStore()->getValidColumns();
+            $columnIndex = $validColumns[array_rand($validColumns, 1)];
+            echo "\n";
+            printError("--- Time elapsed. Your move was autoselected --- ");
+        }
 
         // This is just a cheap fix for memory exhaustion due to AIs
         // choosing of column that is already full multiple times.
-        if (!$this->getCurrentPlayer()->isHuman() && $tries > 1000)
-        {
+        if (!$this->getCurrentPlayer()->isHuman() && $tries > 1000) {
             printError("Stalemate. There is no winner.");
             exit;
         }
 
         // Drop the token to the designated column
-        if (!$this->getMovesStore()->dropToken($columnIndex, $this->getCurrentPlayer()->getToken()))
-        {
+        if (!$this->getMovesStore()->dropToken($columnIndex, $this->getCurrentPlayer()->getToken())) {
             // Invalid dropping...
-            if ($this->getCurrentPlayer()->isHuman())
-            {
+            if ($this->getCurrentPlayer()->isHuman()) {
                 // Show only the errors to human and ignore error for robot
                 printError($this->getMovesStore()->getError());
             }
 
             // Ask to make another move since there's an error
-            $this->initiateMove($tries+1);
+            $this->initiateMove($tries + 1);
         } else {
             // There's a valid move so we'll print that information
             $humanReadableColumn = $columnIndex + 1;
-            printInfo( sprintf('%s %s move is in the column %s', $this->getCurrentPlayer()->getName(), $this->getCurrentPlayer()->getToken(), $humanReadableColumn) );
-
-            // Set the cells to the board and draw it
-            $this->getBoard()->setCells($this->getMovesStore()->getCells());
-            $this->getBoard()->draw();
+            printInfo(sprintf('%s %s move is in the column %s', $this->getCurrentPlayer()->getName(), $this->getCurrentPlayer()->getToken(), $humanReadableColumn));
         }
     }
 

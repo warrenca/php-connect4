@@ -1,3 +1,4 @@
+#!/usr/bin/env php
 <?php
 // Let the game begin!
 
@@ -16,7 +17,7 @@ Ctrl-C to exit
 
 $gameMode = readline("Enter 1, 2 or 3: ");
 
-if (!in_array($gameMode, [1,2,3]))
+if (!in_array($gameMode, [1, 2, 3]))
 {
     printError("Invalid selection.");
     goto chooseGameMode;
