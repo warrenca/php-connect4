@@ -4,8 +4,6 @@
 
 require 'bootstrap.php';
 
-$players = [];
-
 chooseGameMode:
 printInfo("
 Connect4 Game!
@@ -41,18 +39,5 @@ switch ($gameMode) {
 
 $game->setup();
 $game->start();
-
-if ($game->getWinner())
-{
-    $players[$game->getWinner()->getName()] = $players[$game->getWinner()->getName()] + 1;
-} else {
-    $players['no-winner'] = $players['no-winner'] + 1;
-    if ($players['no-winner'] >= 10)
-    {
-        print_r($players);
-        die();
-    }
-
-}
 
 goto chooseGameMode;
