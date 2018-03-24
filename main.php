@@ -27,16 +27,17 @@ if (!in_array($gameMode, [1, 2, 3]))
 switch ($gameMode)
 {
     case 1:
-        $game = $container->get('connect4.game.human.vs.human');
+        $game = $container->make('connect4.game.human.vs.human');
         break;
     case 2:
-        $game = $container->get('connect4.game.human.vs.ai');
+        $game = $container->make('connect4.game.human.vs.ai');
         break;
     case 3:
-        $game = $container->get('connect4.game.ai.vs.ai');
+        $game = $container->make('connect4.game.ai.vs.ai');
         break;
     default:
         goto chooseGameMode;
+        break;
 }
 
 $game->setup();

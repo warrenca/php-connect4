@@ -48,6 +48,9 @@ class Game
     /** @var int $maximumTurns */
     private $maximumTurns;
 
+    /** @var string $mode */
+    private $mode;
+
     /**
      * Game constructor.
      * @param Board $board
@@ -295,5 +298,21 @@ class Game
     public function setMovesStore($movesStore)
     {
         $this->movesStore = $movesStore;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMode()
+    {
+        return $this->mode;
+    }
+
+    /**
+     * @param string $mode
+     */
+    public function setMode($mode)
+    {
+        $this->mode = $mode;
     }
 }

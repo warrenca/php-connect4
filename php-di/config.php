@@ -47,17 +47,19 @@ return [
     },
     // Game Instantiation for Human v AI
     'connect4.game.human.vs.ai' => function (\Psr\Container\ContainerInterface $c) {
-            /** @var \Connect4\Game $game */
-            $game = $c->get('connect4.game');
-            $game->setPlayerOne($c->get('connect4.player.human'));
-            $game->setPlayerTwo($c->get('connect4.player.smarterAi'));
+        /** @var \Connect4\Game $game */
+        $game = $c->get('connect4.game');
+        $game->setMode('human.vs.ai');
+        $game->setPlayerOne($c->get('connect4.player.human'));
+        $game->setPlayerTwo($c->get('connect4.player.smarterAi'));
 
-            return $game;
+        return $game;
     },
     // Game Instantiation for Human v Human
     'connect4.game.human.vs.human' => function (\Psr\Container\ContainerInterface $c) {
         /** @var \Connect4\Game $game */
         $game = $c->get('connect4.game');
+        $game->setMode('human.vs.human');
         $game->setPlayerOne($c->get('connect4.player.human'));
         $game->setPlayerTwo($c->get('connect4.player.human2'));
 
@@ -67,6 +69,7 @@ return [
     'connect4.game.ai.vs.ai' => function (\Psr\Container\ContainerInterface $c) {
         /** @var \Connect4\Game $game */
         $game = $c->get('connect4.game');
+        $game->setMode('ai.vs.ai');
         $game->setPlayerOne($c->get('connect4.player.ai'));
         $game->setPlayerTwo($c->get('connect4.player.smarterAi'));
 
