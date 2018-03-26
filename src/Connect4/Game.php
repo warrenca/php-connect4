@@ -85,7 +85,7 @@ class Game
             sprintf("Player One: Name %s, Token %s\n", $this->playerOne->getName(), $this->playerOne->getToken()) .
             sprintf("Player Two: Name %s, Token %s\n", $this->playerTwo->getName(), $this->playerTwo->getToken()) .
             Board::TOKEN_EMPTY_CELL . " indicates an empty cell and a valid drop point.\n" .
-            "Press Ctrl+C anytime to exit the game.\n" .
+            getExitInstruction() .
             "Have fun!\n\n"
         );
 
