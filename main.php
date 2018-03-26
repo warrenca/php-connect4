@@ -11,8 +11,7 @@ Please choose a game mode.
 1) Human vs Human
 2) Human vs AI
 3) AI vs AI
-Ctrl-C to exit
-");
+" . getExitInstruction());
 
 
 $gameMode = readline("Enter 1, 2 or 3: ");

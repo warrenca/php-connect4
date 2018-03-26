@@ -6,7 +6,7 @@
     "require": {
         "php-di/php-di": "^6.0"
     },
-    "license": "MIT",
+    "license": "APLv2",
     "authors": [
         {
             "name": "Warren",

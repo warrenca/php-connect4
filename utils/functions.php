@@ -43,3 +43,15 @@ function printInfo($info, $withNewLine = true)
     $newLine = $withNewLine ? "\n" : "";
     echo "\033[33mInfo: $info \033[0m" . $newLine;
 }
+
+/**
+ * Get a different exit instruction if it's in docker
+ *
+ * @return string
+ */
+function getExitInstruction()
+{
+    return getenv('IN_DOCKER') == 1
+        ? "Press Ctrl+p+q anytime to exit the game.\n"
+        : "Press Ctrl+C anytime to exit the game.\n";
+}

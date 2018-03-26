@@ -2,6 +2,8 @@
 
 Connect Four (also known as Captain's Mistress, Four Up, Plot Four, Find Four, Four in a Row, Four in a Line and Gravitrips) is a two-player connection game in which the players first choose a color and then take turns dropping colored discs from the top into a seven-column, six-row vertically suspended grid.
 
+[![Build Status](https://travis-ci.org/warrenca/php-connect4.svg?branch=master)](https://travis-ci.org/warrenca/php-connect4)
+
 ### Assumptions ###
 
 1. An interactive text console game ✅
@@ -194,6 +196,27 @@ Connect4\Tests\GameTests
 Time: 5.3 seconds, Memory: 6.00MB
 
 OK (61 tests, 161 assertions)
+```
+
+### Docker ###
+Not all computers run with PHP 7.1 which is required by this project. So here comes docker.
+
+#### Docker Installation
+Basic knowledge with docker building or pulling, more here https://docs.docker.com/get-started/
+
+#### Building the image from the source
+```
+docker build -t php-connect4 . 
+```
+
+#### Downloading the image from dockerhub
+```
+docker pull warrenca/php-connect4
+```
+
+#### Playing the game
+```
+docker run -it php-connect4
 ```
 
 ### Contribution guidelines ###
