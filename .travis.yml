@@ -20,3 +20,8 @@ install:
 script:
     # run test suite
     - composer test
+
+notifications:
+  email:
+    on_success: never
+    on_failure: always
