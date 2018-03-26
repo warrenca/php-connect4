@@ -216,7 +216,7 @@ docker pull warrenca/php-connect4
 
 #### Playing the game
 ```
-docker run -it php-connect4
+docker run -it warrenca/php-connect4
 ```
 
 ### Contribution guidelines ###
